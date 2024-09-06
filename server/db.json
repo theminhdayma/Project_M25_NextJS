@@ -1,0 +1,113 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "ngoc123",
+      "password": "$2a$10$W8xo8C/.tJT80zx9MCHj/euhUhb/fai5XqXuzcMQ.lOtSbFchSZnu",
+      "email": "ngoc@gmail.com",
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F6ced467a63fc0fef4e18fe92459acd2d.jpg?alt=media&token=a650f04e-3354-4706-9c8f-2f05f058f590",
+      "biography": "",
+      "gender": "",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": []
+    },
+    {
+      "id": 1725566178835,
+      "name": "Thế Minh",
+      "password": "U2FsdGVkX1/TTNBQ8aDL3mcsoqmzcgkCayux10kXm24=",
+      "email": "theminh2005z@gmail.com",
+      "avatar": "",
+      "biography": "",
+      "gender": "",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": []
+    },
+    {
+      "id": 1725566771315,
+      "name": "Minh Sâm",
+      "password": "U2FsdGVkX1+cZ3B2hH0pYDABmiNruDxP54AKq3ZYBiQ=",
+      "email": "tranthiminhsam2006@icloud.com",
+      "avatar": "",
+      "biography": "",
+      "gender": "",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": []
+    },
+    {
+      "id": 1725581326580,
+      "name": "Thế Minh",
+      "password": "U2FsdGVkX1+2E48mn4X22E78Kq3aAvLjuOkSrj5F18k=",
+      "email": "theminh2005z@gmail.com",
+      "avatar": "",
+      "biography": "",
+      "gender": "",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": []
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "idUser": 1,
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F6ced467a63fc0fef4e18fe92459acd2d.jpg?alt=media&token=a650f04e-3354-4706-9c8f-2f05f058f590",
+      "nameUser": "ngoc123",
+      "detail": "xin chao",
+      "fullDate": "2024-07-14",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F6ced467a63fc0fef4e18fe92459acd2d.jpg?alt=media&token=c4a510af-b6ee-46cb-84de-3bcd8db77678",
+        "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F5b1a0a0bcec53f8fcbdf301f39bd509c.jpg?alt=media&token=9d596b56-d7d5-4247-b8cf-a354a880bf12",
+        "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F4.jpg?alt=media&token=f39bb3b5-e048-4e54-821c-592f851c9f71"
+      ],
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true
+    }
+  ],
+  "commentsParent": [
+    {
+      "id": 1,
+      "idUser": 1,
+      "avatarUser": "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg",
+      "nameUser": "hanghihi",
+      "postId": 1,
+      "detail": "beautiful",
+      "commentsById": []
+    }
+  ],
+  "commentsChild": [
+    {
+      "id": 1,
+      "idUser": 1,
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2Fc9ef309294b84a23d507392f91a27a1a.jpg?alt=media&token=bb9c138b-5b53-410d-80ae-56f556910ae8",
+      "nameUser": "hanghihi",
+      "postId": 1,
+      "idParent": 1,
+      "userNameParent": "hanghihi",
+      "detail": "@hanghihi hello"
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "groupName": "ăn uống",
+      "usersById": [],
+      "status": false,
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2Ffbeaf5cfc5be646e79800ff32a97e359.jpg?alt=media&token=d4eab9bc-7bc9-49bb-851a-8b5e60e185f1",
+      "private": false,
+      "adminById": 1
+    }
+  ]
+}
