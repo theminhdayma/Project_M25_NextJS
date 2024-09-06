@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { register } from "@/service/user.service";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { User } from "@/interface";
 
 export default function Register() {
+  const [checkUseEmail, setCheckUseEmail] = useState<boolean>(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const [form, setForm] = useState({
@@ -28,22 +30,22 @@ export default function Register() {
     setForm((prevForm) => ({ ...prevForm, [id]: value }));
   };
 
-  const validateForm = () => {
+  const validateForm = async () => {
     const newErrors = {
       username: "",
       email: "",
       password: "",
       confirmPassword: "",
     };
-
+  
     let isValid = true;
-
+  
     // Kiểm tra tên tài khoản không được để trống
     if (!form.username) {
       newErrors.username = "Tên tài khoản không được để trống";
       isValid = false;
     }
-
+  
     // Kiểm tra email có đúng định dạng
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.email) {
@@ -52,9 +54,16 @@ export default function Register() {
     } else if (!emailRegex.test(form.email)) {
       newErrors.email = "Email không đúng định dạng";
       isValid = false;
+    } else {
+      // Kiểm tra email có tồn tại không (nếu đúng định dạng mới kiểm tra)
+      const existingUser = await checkExistingUser(form.email);
+      if (existingUser) {
+        newErrors.email = "Email đã được sử dụng";
+        isValid = false;
+      }
     }
-
-    // Kiểm tra mật khẩu ít nhất 8 ký tự
+  
+    // Kiểm tra mật khẩu
     if (!form.password) {
       newErrors.password = "Mật khẩu không được để trống";
       isValid = false;
@@ -62,7 +71,7 @@ export default function Register() {
       newErrors.password = "Mật khẩu phải có ít nhất 8 ký tự";
       isValid = false;
     }
-
+  
     // Kiểm tra xác nhận mật khẩu
     if (!form.confirmPassword) {
       newErrors.confirmPassword = "Xác nhận mật khẩu không được để trống";
@@ -71,15 +80,19 @@ export default function Register() {
       newErrors.confirmPassword = "Mật khẩu và xác nhận mật khẩu không khớp";
       isValid = false;
     }
-
+  
+    // Cập nhật lỗi nếu có
     setErrors(newErrors);
     return isValid;
   };
+  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (validateForm()) {
+    const isValid = await validateForm(); // Thêm await để chờ validate
+  
+    if (isValid) {
       try {
         await dispatch(register(form));
         Swal.fire({
@@ -103,6 +116,23 @@ export default function Register() {
       password: "",
       confirmPassword: "",
     });
+  };
+
+  // Hàm kiểm tra xem email đã tồn tại chưa
+  const checkExistingUser = async (email: string) => {
+    try {
+      const response = await fetch("http://localhost:8080/users");
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        return data.find((user: User) => user.email === email);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Lỗi:", error);
+      return null;
+    }
   };
 
   return (

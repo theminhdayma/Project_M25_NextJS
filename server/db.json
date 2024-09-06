@@ -1,20 +1,6 @@
 {
   "users": [
     {
-      "id": 1,
-      "name": "ngoc123",
-      "password": "$2a$10$W8xo8C/.tJT80zx9MCHj/euhUhb/fai5XqXuzcMQ.lOtSbFchSZnu",
-      "email": "ngoc@gmail.com",
-      "avatar": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F6ced467a63fc0fef4e18fe92459acd2d.jpg?alt=media&token=a650f04e-3354-4706-9c8f-2f05f058f590",
-      "biography": "",
-      "gender": "",
-      "postsById": [],
-      "followersById": [],
-      "status": true,
-      "private": false,
-      "requestFollowById": []
-    },
-    {
       "id": 1725566178835,
       "name": "Thế Minh",
       "password": "U2FsdGVkX1/TTNBQ8aDL3mcsoqmzcgkCayux10kXm24=",
@@ -26,7 +12,8 @@
       "followersById": [],
       "status": true,
       "private": false,
-      "requestFollowById": []
+      "requestFollowById": [],
+      "role": 0
     },
     {
       "id": 1725566771315,
@@ -40,35 +27,67 @@
       "followersById": [],
       "status": true,
       "private": false,
-      "requestFollowById": []
+      "requestFollowById": [],
+      "role": 0
     },
     {
-      "id": 1725581326580,
-      "name": "Thế Minh",
-      "password": "U2FsdGVkX1+2E48mn4X22E78Kq3aAvLjuOkSrj5F18k=",
-      "email": "theminh2005z@gmail.com",
-      "avatar": "",
+      "id": 1773626771315,
+      "name": "ngoc123",
+      "password": "$2a$10$W8xo8C/.tJT80zx9MCHj/euhUhb/fai5XqXuzcMQ.lOtSbFchSZnu",
+      "email": "ngoc@gmail.com",
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F6ced467a63fc0fef4e18fe92459acd2d.jpg?alt=media&token=a650f04e-3354-4706-9c8f-2f05f058f590",
       "biography": "",
       "gender": "",
       "postsById": [],
       "followersById": [],
       "status": true,
       "private": false,
-      "requestFollowById": []
+      "requestFollowById": [],
+      "role": 1
+    },
+    {
+      "id": 1725586455216,
+      "name": "Quang",
+      "password": "U2FsdGVkX19gcbBimg/vuV/MAyjGB8rRzwm050xDyTU=",
+      "email": "thequang@gmail.com",
+      "avatar": "",
+      "biography": "chưa có",
+      "gender": "chưa có",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": [],
+      "role": 1
+    },
+    {
+      "id": 1725588156315,
+      "name": "Thiều",
+      "password": "U2FsdGVkX18mdTyioIQ7WfPPU03h1ASJF/1dFCCWLXk=",
+      "email": "thieu@gmail.com",
+      "avatar": "",
+      "biography": "chưa có",
+      "gender": "chưa có",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": [],
+      "role": 1
     }
   ],
   "posts": [
     {
       "id": 1,
       "idUser": 1,
-      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F6ced467a63fc0fef4e18fe92459acd2d.jpg?alt=media&token=a650f04e-3354-4706-9c8f-2f05f058f590",
-      "nameUser": "ngoc123",
+      "avatarUser": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+      "name": "ngoc123",
       "detail": "xin chao",
       "fullDate": "2024-07-14",
       "images": [
-        "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F6ced467a63fc0fef4e18fe92459acd2d.jpg?alt=media&token=c4a510af-b6ee-46cb-84de-3bcd8db77678",
-        "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F5b1a0a0bcec53f8fcbdf301f39bd509c.jpg?alt=media&token=9d596b56-d7d5-4247-b8cf-a354a880bf12",
-        "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F4.jpg?alt=media&token=f39bb3b5-e048-4e54-821c-592f851c9f71"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
       ],
       "commentsById": [],
       "favouristUsersById": [],

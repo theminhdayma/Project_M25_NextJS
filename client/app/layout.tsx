@@ -17,8 +17,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        />
+      </head>
       <body className={inter.className}>
         <ReduxProvider>{children}</ReduxProvider>
+        {/* <script src="https://kit.fontawesome.com/4ce7f9b3cb.js" crossorigin="anonymous"></script> */}
       </body>
     </html>
   );

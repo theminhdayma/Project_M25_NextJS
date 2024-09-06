@@ -1,13 +1,23 @@
-"use client"
+"use client";
 import Header from "@/components/User/Header";
+import { Post } from "@/interface";
+import { getAllPost } from "@/service/post.service";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
+  const listPost: Post[] = useSelector((state: any) => state.post.post);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllPost());
+  }, [dispatch]);
+
   return (
     <div className="bg-gray-900 text-gray-200 font-sans">
-      <Header/>
+      <Header />
       {/* Main Content */}
-      <div className="container mx-auto flex justify-between mt-5 gap-2">
+      <div className="container flex justify-between mt-5 gap-10">
         {/* Sidebar Left */}
         <aside className="w-1/5 bg-gray-800 p-5 rounded-lg">
           <Link href={"/profile"} className="flex items-center mb-5">
@@ -18,6 +28,15 @@ export default function Home() {
             />
             <p>Nguyễn Thế Minh</p>
           </Link>
+          {/* Search bar */}
+          <div className="relative flex items-center bg-gray-700 rounded-full px-4 py-2">
+            <input
+              type="text"
+              placeholder="Tìm kiếm ..."
+              className="bg-transparent border-none text-gray-200 w-full focus:outline-none"
+            />
+            <i className="fas fa-search absolute right-4 text-gray-400" />
+          </div>
           <ul>
             <li className="mb-3">
               <Link
@@ -27,24 +46,24 @@ export default function Home() {
                 <i className="fas fa-user-friends" /> Bạn bè
               </Link>
             </li>
-            <li className="mb-3">
+            {/* <li className="mb-3">
               <Link
                 href="celebrate"
                 className="flex items-center gap-3 hover:bg-gray-700 px-3 py-2 rounded-lg"
               >
                 <i className="fas fa-clock" /> Kỷ niệm
               </Link>
-            </li>
-            <li className="mb-3">
+            </li> */}
+            {/* <li className="mb-3">
               <a
                 href="#"
                 className="flex items-center gap-3 hover:bg-gray-700 px-3 py-2 rounded-lg"
               >
                 <i className="fas fa-bookmark" /> Đã lưu
               </a>
-            </li>
+            </li> */}
             <li className="mb-3">
-              <Link 
+              <Link
                 href="group"
                 className="flex items-center gap-3 hover:bg-gray-700 px-3 py-2 rounded-lg"
               >
@@ -57,6 +76,17 @@ export default function Home() {
         <section className="w-3/5 bg-gray-800 p-5 rounded-lg">
           {/* Stories */}
           <div className="flex gap-4 mb-5">
+            <div className="w-24 h-36 bg-gray-700 rounded-lg overflow-hidden relative">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
+                alt="Story 1"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
+                {/* <FontAwesomeIcon icon="fa-solid fa-circle-up" /> */}
+                <p>Tạo tin</p>
+              </div>
+            </div>
             <div className="w-24 h-36 bg-gray-700 rounded-lg overflow-hidden relative">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
@@ -89,37 +119,39 @@ export default function Home() {
             </div>
           </div>
           {/* Post */}
-          <div className="bg-gray-700 p-4 rounded-lg mb-5">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center">
+          <div>
+            {listPost.map((post: Post, index: number) => (
+              <div className="bg-gray-700 p-4 rounded-lg mb-5">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center">
+                    <img
+                      src={post.avatarUser}
+                      alt={post.name}
+                      className="w-10 h-10 rounded-full mr-3"
+                    />
+                    <h4>{post.name}</h4>
+                  </div>
+                  <span className="text-sm text-gray-400">23 giờ trước</span>
+                </div>
+                <p className="mb-3">{post.detail}</p>
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-                  alt="User 1"
-                  className="w-10 h-10 rounded-full mr-3"
+                  src={post.images[0]}
+                  alt="Post Image"
+                  className="w-full h-auto rounded-lg mb-3"
                 />
-                <h4>User 1</h4>
+                <div className="flex justify-around">
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
+                    <i className="fas fa-thumbs-up" /> Thích
+                  </button>
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
+                    <i className="fas fa-comment" /> Bình luận
+                  </button>
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
+                    <i className="fas fa-share" /> Chia sẻ
+                  </button>
+                </div>
               </div>
-              <span className="text-sm text-gray-400">23 giờ trước</span>
-            </div>
-            <p className="mb-3">
-              Mong anh sớm quay trở lại hàng tiền vệ của Real Madrid 🥰
-            </p>
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-              alt="Post Image"
-              className="w-full h-auto rounded-lg mb-3"
-            />
-            <div className="flex justify-around">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                <i className="fas fa-thumbs-up" /> Thích
-              </button>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                <i className="fas fa-comment" /> Bình luận
-              </button>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                <i className="fas fa-share" /> Chia sẻ
-              </button>
-            </div>
+            ))}
           </div>
         </section>
         {/* Sidebar Right */}

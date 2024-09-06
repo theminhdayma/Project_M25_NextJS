@@ -11,13 +11,14 @@ export interface User {
   status: boolean;
   private: boolean;
   requestFollowById: number[];
+  role: number
 }
 
 export interface Post {
   id: number;
   idUser: number;
   avatarUser: string;
-  nameUser: string;
+  name: string;
   detail: string;
   fullDate: string;
   images: string[];

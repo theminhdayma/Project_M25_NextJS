@@ -19,7 +19,7 @@ export default function Login() {
 
   // Lấy danh sách tài khoản từ Redux
   const listAccount: User[] = useSelector((state: any) => state.user.user);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const router = useRouter();
 
   // Lấy tất cả tài khoản khi component được render
@@ -30,6 +30,7 @@ export default function Login() {
   // Hàm kiểm tra định dạng email
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,7 +61,7 @@ export default function Login() {
 
     // Tìm tài khoản với email nhập vào
     const user = listAccount.find((user) => user.email === inputValue.email);
-    
+
     // Nếu không tìm thấy tài khoản với email đó
     if (!user) {
       setCheckUseEmail(true);
@@ -90,24 +91,20 @@ export default function Login() {
     }
 
     // Nếu các kiểm tra đều hợp lệ, tiến hành đăng nhập
-    dispatch(login(user.id))
-      .then(() => {
-        router.push("/"); 
-        setInputValue({ email: "", password: "" });
-        Swal.fire({
-          title: "Đăng nhập thành công",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
-      })
-      .catch(() => {
-        Swal.fire({
-          title: "Đăng nhập thất bại",
-          text: "Đã có lỗi xảy ra",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      });
+    dispatch(login(user.id));
+
+    if (user.role === 0) {
+      router.push("/admin");
+    } else {
+      router.push("/");
+    }
+
+    setInputValue({ email: "", password: "" });
+    Swal.fire({
+      title: "Đăng nhập thành công",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
   };
 
   return (
@@ -122,7 +119,7 @@ export default function Login() {
                 Email
               </label>
               <input
-                type="email"
+                type="text"
                 id="email"
                 value={inputValue.email}
                 onChange={(e) =>

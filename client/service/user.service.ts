@@ -25,15 +25,15 @@ export const getAllUser: any = createAsyncThunk(
         password: EncryptedPassword,
         email,
         avatar: "",
-        biography: "",
-        gender: "",
+        biography: "chưa có",
+        gender: "chưa có",
         postsById: [],
         followersById: [],
         status: true,
         private: false,
-        requestFollowById: []
+        requestFollowById: [],
+        role: 1
       };
-  
       const response = await axios.post("http://localhost:8080/users", newUser);
       return response.data;
     }
