@@ -32,7 +32,7 @@ export interface CommentParent {
   id: number;
   idUser: number;
   avatarUser: string;
-  nameUser: string;
+  name: string;
   postId: number;
   detail: string;
   commentsById: number[];

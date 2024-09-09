@@ -93,6 +93,40 @@
       "favouristUsersById": [],
       "idGroup": null,
       "status": true
+    },
+    {
+      "id": 2,
+      "idUser": 1,
+      "avatarUser": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+      "name": "ngoc123",
+      "detail": "xin chao",
+      "fullDate": "2024-07-14",
+      "images": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
+      ],
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true
+    },
+    {
+      "id": 3,
+      "idUser": 1,
+      "avatarUser": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+      "name": "ngoc123",
+      "detail": "xin chao",
+      "fullDate": "2024-07-14",
+      "images": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
+      ],
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true
     }
   ],
   "commentsParent": [
@@ -100,7 +134,7 @@
       "id": 1,
       "idUser": 1,
       "avatarUser": "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg",
-      "nameUser": "hanghihi",
+      "name": "hanghihi",
       "postId": 1,
       "detail": "beautiful",
       "commentsById": []
@@ -111,7 +145,7 @@
       "id": 1,
       "idUser": 1,
       "avatarUser": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2Fc9ef309294b84a23d507392f91a27a1a.jpg?alt=media&token=bb9c138b-5b53-410d-80ae-56f556910ae8",
-      "nameUser": "hanghihi",
+      "name": "hanghihi",
       "postId": 1,
       "idParent": 1,
       "userNameParent": "hanghihi",

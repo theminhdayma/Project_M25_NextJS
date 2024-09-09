@@ -70,7 +70,7 @@ export default function Header() {
                   <i className="fas fa-users" />
                   <span className="text-sm mt-1">Nhóm</span>
                 </a>
-              </li>     
+              </li>
               <li>
                 <a
                   href="#"
@@ -86,14 +86,16 @@ export default function Header() {
           {/* User Menu */}
           {loggedInUser ? (
             <div className="flex items-center gap-4 cursor-pointer">
-              <img
-                src={
-                  loggedInUser.avatar ||
-                  "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
-                }
-                alt="User"
-                className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
-              />
+              <Link href={"/profile"}>
+                <img
+                  src={
+                    loggedInUser.avatar ||
+                    "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
+                  }
+                  alt="User"
+                  className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
+                />
+              </Link>
               <select
                 className="bg-gray-800 text-white p-2 rounded"
                 onChange={handleOptionChange}
@@ -102,7 +104,6 @@ export default function Header() {
                 <option value="profile">Trang cá nhân</option>
                 <option value="logout">Đăng xuất</option>
               </select>
-              <i className="fas fa-caret-down" />
             </div>
           ) : (
             <div className="flex items-center gap-4 cursor-pointer">
