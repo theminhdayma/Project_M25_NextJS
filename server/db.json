@@ -6,13 +6,20 @@
       "password": "U2FsdGVkX1/TTNBQ8aDL3mcsoqmzcgkCayux10kXm24=",
       "email": "theminh2005z@gmail.com",
       "avatar": "",
-      "biography": "",
+      "banner": "",
+      "biography": [
+        {
+          "workplace": "",
+          "school": ""
+        }
+      ],
       "gender": "",
       "postsById": [],
       "followersById": [],
       "status": true,
       "private": false,
       "requestFollowById": [],
+      "listFrend": [],
       "role": 0
     },
     {
@@ -21,13 +28,20 @@
       "password": "U2FsdGVkX1+cZ3B2hH0pYDABmiNruDxP54AKq3ZYBiQ=",
       "email": "tranthiminhsam2006@icloud.com",
       "avatar": "",
-      "biography": "",
+      "banner": "",
+      "biography": [
+        {
+          "workplace": "",
+          "school": ""
+        }
+      ],
       "gender": "",
       "postsById": [],
       "followersById": [],
       "status": true,
       "private": false,
       "requestFollowById": [],
+      "listFrend": [],
       "role": 0
     },
     {
@@ -36,13 +50,20 @@
       "password": "$2a$10$W8xo8C/.tJT80zx9MCHj/euhUhb/fai5XqXuzcMQ.lOtSbFchSZnu",
       "email": "ngoc@gmail.com",
       "avatar": "https://firebasestorage.googleapis.com/v0/b/online-social-2adfa.appspot.com/o/imagesPost%2F6ced467a63fc0fef4e18fe92459acd2d.jpg?alt=media&token=a650f04e-3354-4706-9c8f-2f05f058f590",
-      "biography": "",
+      "banner": "",
+      "biography": [
+        {
+          "workplace": "",
+          "school": ""
+        }
+      ],
       "gender": "",
       "postsById": [],
       "followersById": [],
       "status": true,
       "private": false,
       "requestFollowById": [],
+      "listFrend": [],
       "role": 1
     },
     {
@@ -51,13 +72,20 @@
       "password": "U2FsdGVkX19gcbBimg/vuV/MAyjGB8rRzwm050xDyTU=",
       "email": "thequang@gmail.com",
       "avatar": "",
-      "biography": "chưa có",
+      "banner": "",
+      "biography": [
+        {
+          "workplace": "",
+          "school": ""
+        }
+      ],
       "gender": "chưa có",
       "postsById": [],
       "followersById": [],
       "status": true,
       "private": false,
       "requestFollowById": [],
+      "listFrend": [],
       "role": 1
     },
     {
@@ -66,13 +94,114 @@
       "password": "U2FsdGVkX18mdTyioIQ7WfPPU03h1ASJF/1dFCCWLXk=",
       "email": "thieu@gmail.com",
       "avatar": "",
-      "biography": "chưa có",
+      "banner": "",
+      "biography": [
+        {
+          "workplace": "",
+          "school": ""
+        }
+      ],
       "gender": "chưa có",
       "postsById": [],
       "followersById": [],
       "status": true,
       "private": false,
       "requestFollowById": [],
+      "listFrend": [],
+      "role": 1
+    },
+    {
+      "id": 1725853790178,
+      "name": "minh vỹ",
+      "password": "U2FsdGVkX1/wC7NjQHtOHfAXug/YeKXg1yGiQxYR0Zk=",
+      "email": "minhvy@gmail.com",
+      "avatar": "",
+      "banner": "",
+      "biography": [
+        {
+          "workplace": "",
+          "school": ""
+        }
+      ],
+      "gender": "chưa có",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": [],
+      "listFrend": [],
+      "role": 1
+    },
+    {
+      "id": 1725853827179,
+      "name": "bình vũ",
+      "password": "U2FsdGVkX1+EauC9mrU58UXmD6oRUDytKeAXnRFDquI=",
+      "email": "binh@gmail.com",
+      "avatar": "",
+      "banner": "",
+      "biography": [
+        {
+          "workplace": "",
+          "school": ""
+        }
+      ],
+      "gender": "chưa có",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": [],
+      "listFrend": [],
+      "role": 1
+    },
+    {
+      "id": 1725853849787,
+      "name": "linh",
+      "password": "U2FsdGVkX18hIy2oAdbwqg9ooQeN1CnXjf6iLwxfj7E=",
+      "email": "linh@gmail.com",
+      "avatar": "",
+      "banner": "",
+      "biography": [
+        {
+          "workplace": "",
+          "school": ""
+        }
+      ],
+      "gender": "chưa có",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": [],
+      "listFrend": [],
+      "role": 1
+    },
+    {
+      "id": 1725855291839,
+      "name": "tiến ngu vl",
+      "password": "U2FsdGVkX18vqD7G8xwVGebDyJ3vOnUT5e4SEQ9RuJk=",
+      "email": "tien@gmail.com",
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
+      "banner": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915571656_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=49a00d76-63d9-4efe-a69f-b3fc4a7c17ab",
+      "biography": [
+        {
+          "workplace": "Ngu",
+          "school": "Ngu"
+        }
+      ],
+      "gender": "nam",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": [
+        1725856603880,
+        1725566178835
+      ],
+      "listFrend": [
+        1725853849787,
+        1725853827179
+      ],
       "role": 1
     }
   ],
@@ -85,6 +214,10 @@
       "detail": "xin chao",
       "fullDate": "2024-07-14",
       "images": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
@@ -127,6 +260,21 @@
       "favouristUsersById": [],
       "idGroup": null,
       "status": true
+    },
+    {
+      "idUser": 1725855291839,
+      "avatarUser": "",
+      "name": "tiến",
+      "detail": "CCCD",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2FCCCD.jpg?alt=media&token=301932ce-fcd3-4f1f-b9ba-28cd2d3046f6"
+      ],
+      "fullDate": "2024-09-09",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "id": 4
     }
   ],
   "commentsParent": [

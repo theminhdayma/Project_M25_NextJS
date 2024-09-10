@@ -1,17 +1,24 @@
+export interface BiographyEntry {
+  workplace: string;
+  school: string;
+}
+
 export interface User {
   id: number;
   name: string;
   password: string;
   email: string;
   avatar: string;
-  biography: string;
+  banner: string;
+  biography: BiographyEntry[];
   gender: string;
   postsById: number[];
   followersById: number[];
   status: boolean;
   private: boolean;
   requestFollowById: number[];
-  role: number
+  listFrend: number[];
+  role: number;
 }
 
 export interface Post {

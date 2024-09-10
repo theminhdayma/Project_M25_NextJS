@@ -5,26 +5,27 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import FromNotification from "../From/FromNotification";
 
 export default function Header() {
+  const [showNotification, setShowNotification] = useState<boolean>(false);
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Lấy tài khoản đăng nhập từ Local Storage khi component render
   useEffect(() => {
     const user = getLocal("loggedInUser");
     if (user) {
       setLoggedInUser(user);
+    } else {
+      router.push("/login");
     }
   }, [dispatch]);
 
-  // Hàm xử lý khi chọn một option trong menu
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = e.target.value;
 
     if (selectedOption === "profile") {
-      // Điều hướng đến trang cá nhân
       router.push(`/profile/${loggedInUser?.id}`);
     } else if (selectedOption === "logout") {
       deleteLocal("loggedInUser");
@@ -32,18 +33,20 @@ export default function Header() {
     }
   };
 
+  const handleshowNotification = () => {
+    setShowNotification(!showNotification);
+  };
+
   return (
     <>
-      <header className="bg-gray-800 py-3 sticky top-0 z-50 border-b border-gray-600">
+      <header className=" bg-gray-800 py-3 sticky top-0 z-50 border-b border-gray-600">
         <div className="container mx-auto flex justify-between items-center">
-          {/* Logo */}
           <div className="text-3xl text-blue-500 flex items-center gap-4">
             <i className="fab fa-facebook-f" />
             <p className="font-sans">FACEBOOK</p>
           </div>
-          {/* Navbar */}
           <nav>
-            <ul className="flex gap-24">
+            <ul className="flex gap-24 text-white">
               <li>
                 <a
                   href="#"
@@ -72,21 +75,19 @@ export default function Header() {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
+                <button
+                  onClick={handleshowNotification}
                   className="h-full flex items-center justify-center gap-2 text-[26px] text-lg hover:text-blue-500"
                 >
                   <i className="fas fa-bell" />
                   <span className="text-sm mt-1">Thông báo</span>
-                </a>
+                </button>
               </li>
             </ul>
           </nav>
-
-          {/* User Menu */}
           {loggedInUser ? (
             <div className="flex items-center gap-4 cursor-pointer">
-              <Link href={"/profile"}>
+              <Link href={`/profile/${loggedInUser.id}`}>
                 <img
                   src={
                     loggedInUser.avatar ||
@@ -117,6 +118,7 @@ export default function Header() {
           )}
         </div>
       </header>
+      {showNotification && <FromNotification />}
     </>
   );
 }

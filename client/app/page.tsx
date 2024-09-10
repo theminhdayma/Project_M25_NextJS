@@ -8,37 +8,49 @@ import { getLocal } from "@/store/reducers/Local";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { friendRequest, getAllUser } from "@/service/user.service";
+
+// Function to shuffle an array
+const shuffleArray = (array: User[]) => {
+  let currentIndex = array.length,
+    randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+};
 
 export default function Home() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const [showFromUpPost, setShowFromUpPost] = useState<boolean>(false);
+  const [friendSuggestions, setFriendSuggestions] = useState<User[]>([]);
   const listPost: Post[] = useSelector((state: any) => state.post.post);
-  const dispatch = useDispatch();
-  const [newPost, setNewPost] = useState({ name: "", detail: "", images: [] });
+  const listUser: User[] = useSelector((state: any) => state.user.user);
+  const dispatch = useDispatch<any>();
 
   useEffect(() => {
     dispatch(getAllPost());
+    dispatch(getAllUser());
     const user = getLocal("loggedInUser");
     if (user) {
       setLoggedInUser(user);
     }
   }, [dispatch]);
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setNewPost((prevPost) => ({
-      ...prevPost,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    if (newPost.detail) {
-      dispatch(createPost(newPost));
-      setNewPost({ name: "Nguyễn Thế Minh", detail: "", images: [] }); // Reset form
+  useEffect(() => {
+    if (listUser.length > 0 && loggedInUser) {
+      const nonLoggedInUsers = listUser.filter(
+        (user) => user.id !== loggedInUser?.id
+      );
+      const shuffledUsers = shuffleArray(nonLoggedInUsers);
+      setFriendSuggestions(shuffledUsers.slice(0, 5));
     }
-  };
+  }, [listUser, loggedInUser]);
 
   const handleShowFromUpPost = () => {
     setShowFromUpPost(true);
@@ -47,14 +59,24 @@ export default function Home() {
   const handleClose = () => {
     setShowFromUpPost(false);
   };
+
+  const handleAddFriend = (friendId: number) => {
+    if (loggedInUser) {
+      dispatch(friendRequest({ friendId, userId: loggedInUser.id }));
+    }
+  };
+
   return (
-    <div className="bg-gray-900 text-gray-200 font-sans">
+    <div className="relative bg-gray-900 text-gray-200 font-sans">
       <Header />
       {/* Main Content */}
       <div className="container flex justify-between mt-5 gap-10 relative">
         {/* Sidebar Left */}
-        <aside className="w-1/5 bg-gray-800 p-5 rounded-lg">
-          <Link href={"/profile"} className="flex items-center gap-2 mb-5">
+        <aside className="w-1/5 bg-gray-800 p-5 rounded-lg flex flex-col gap-3">
+          <Link
+            href={`/profile/${loggedInUser?.id}`}
+            className="flex items-center gap-2 mb-5"
+          >
             <img
               src={
                 loggedInUser?.avatar ||
@@ -140,7 +162,7 @@ export default function Home() {
           </div>
           <div className="mb-5">
             <div className="w-full flex gap-2">
-              <Link href={"/profile"}>
+              <Link href={`/profile/${loggedInUser?.id}`}>
                 <img
                   src={
                     loggedInUser?.avatar ||
@@ -158,29 +180,37 @@ export default function Home() {
               </button>
             </div>
           </div>
-
-          {/* Post */}
           <div>
             {listPost.map((post: Post, index: number) => (
               <div className="bg-gray-700 p-4 rounded-lg mb-5" key={index}>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
-                    <img
-                      src={post.avatarUser}
-                      alt={post.name}
-                      className="w-10 h-10 rounded-full mr-3"
-                    />
+                    <Link href={"/profile"}>
+                      <img
+                        src={
+                          loggedInUser?.avatar ||
+                          "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
+                        }
+                        alt={loggedInUser?.name}
+                        className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
+                      />
+                    </Link>
                     <h4>{post.name}</h4>
                   </div>
                   <span className="text-sm text-gray-400">23 giờ trước</span>
                 </div>
                 <p className="mb-3">{post.detail}</p>
                 {post.images.length > 0 && (
-                  <img
-                    src={post.images[0]}
-                    alt="Post Image"
-                    className="w-full h-auto rounded-lg mb-3"
-                  />
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {post.images.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt={`Post Image ${index + 1}`}
+                        className="w-full h-auto rounded-lg mb-3"
+                      />
+                    ))}
+                  </div>
                 )}
                 <div className="flex justify-around">
                   <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
@@ -198,30 +228,65 @@ export default function Home() {
           </div>
         </section>
         {/* Sidebar Right */}
-        <aside className="w-1/5 bg-gray-800 p-5 rounded-lg">
-          <h3 className="text-xl mb-3">Bạn bè trực tuyến</h3>
-          <ul>
-            <li className="flex items-center mb-3">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-                alt="User 2"
-                className="w-10 h-10 rounded-full mr-3"
-              />
-              <p>Đinh Hà</p>
-            </li>
-            <li className="flex items-center mb-3">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-                alt="User 3"
-                className="w-10 h-10 rounded-full mr-3"
-              />
-              <p>Mai Hương</p>
-            </li>
-          </ul>
+        <aside className="w-1/5 bg-gray-800 p-5 rounded-lg flex flex-col gap-[100px]">
+          <div>
+            <h3 className="text-xl mb-3">Gợi ý kết bạn</h3>
+            <ul>
+              {friendSuggestions.map((user: User, index: number) => (
+                <li className="flex items-center mb-3" key={index}>
+                  <Link
+                    href={`/profile/${user.id}`}
+                    className="w-[180px] flex items-center"
+                  >
+                    <img
+                      src={
+                        user.avatar ||
+                        "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
+                      }
+                      alt={user.name}
+                      className="w-10 h-10 rounded-full mr-3"
+                    />
+                    <p>{user.name}</p>
+                  </Link>
+                  <button
+                    className="bg-blue-500 text-white px-1 py-2 rounded-lg hover:bg-blue-600"
+                    onClick={() => handleAddFriend(user.id)}
+                  >
+                    Kết bạn
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl mb-3">Bạn bè trực tuyến</h3>
+            <ul>
+              <li className="flex items-center mb-3">
+                <div className="relative flex items-center">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
+                    alt="User 2"
+                    className="w-10 h-10 rounded-full mr-3"
+                  />
+                  <span className="absolute -bottom-1 left-7 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800" />
+                  <p>Đinh Hà</p>
+                </div>
+              </li>
+              <li className="flex items-center mb-3">
+                <div className="relative flex items-center">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
+                    alt="User 3"
+                    className="w-10 h-10 rounded-full mr-3"
+                  />
+                  <span className="absolute -bottom-1 left-7 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800" />
+                  <p>Mai Hương</p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </aside>
-        {showFromUpPost && (
-         <FromAddPost close={handleClose} />
-        )}
+        {showFromUpPost && <FromAddPost close={handleClose} />}
       </div>
     </div>
   );
