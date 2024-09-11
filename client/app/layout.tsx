@@ -27,17 +27,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <link
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          rel="stylesheet"
-        />
-        <link
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css"
           rel="stylesheet"
         />
       </head>
       <body className={inter.className}>
         <ReduxProvider>{children}</ReduxProvider>
-        {/* <script src="https://kit.fontawesome.com/4ce7f9b3cb.js" crossorigin="anonymous"></script> */}
       </body>
     </html>
   );

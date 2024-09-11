@@ -2,7 +2,7 @@
 import FromAddPost from "@/components/From/FromAddPost";
 import FromUpdateProfile from "@/components/From/FromUpdateProfile";
 import Header from "@/components/User/Header";
-import { Post, User } from "@/interface";
+import { BiographyEntry, Post, User } from "@/interface";
 import { getAllPost } from "@/service/post.service";
 import { getAllUser } from "@/service/user.service";
 import { getLocal } from "@/store/reducers/Local";
@@ -18,6 +18,8 @@ const Profile = () => {
   const [showUpPost, setShowUpPost] = useState<boolean>(false);
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [showAdd, setShowAdd] = useState<boolean>(true);
+  const listUser: User[] = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
   const params = useParams();
 
@@ -30,6 +32,7 @@ const Profile = () => {
       if (user.id === +params.id) {
         setShowUpPost(true);
         setShowUpdate(true);
+        setShowAdd(false);
       }
     }
   }, [dispatch]);
@@ -37,6 +40,8 @@ const Profile = () => {
   const listPostUser = listPost.filter(
     (post: Post) => post.idUser === +params.id
   );
+  const userProfile = listUser.find((user: User) => user.id === +params.id);
+
   const handleShowFromUpPost = () => setShowFromUpPost(true);
   const handleClose = () => setShowFromUpPost(false);
   const handleEditProfile = () => setShowEditModal(true);
@@ -44,14 +49,14 @@ const Profile = () => {
 
   return (
     <>
-    <Header/>
+      <Header />
       <div className="w-full bg-gray-900 text-white">
         {/* Cover Photo Section */}
         <div className="relative w-full h-80 bg-gray-800">
           <img
             className="w-full h-full object-cover"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s" // Cover photo URL
-            alt="Cover Photo"
+            src={userProfile?.banner}
+            alt={userProfile?.name}
           />
         </div>
 
@@ -60,27 +65,29 @@ const Profile = () => {
             <div>
               <div className="flex items-center space-x-4">
                 <img
-                  src="https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
-                  alt="Avatar"
+                  src={userProfile?.avatar}
+                  alt={userProfile?.name}
                   className="rounded-full w-24 h-24 lg:w-32 lg:h-32 border-4 border-white object-cover"
                 />
                 <div>
                   <h1 className="text-xl lg:text-3xl font-bold text-white">
-                    Nguyễn Thế Minh
+                    {userProfile?.name}
                   </h1>
                   <p className="text-sm lg:text-base text-gray-300">
-                    3,3K friends • 35 mutual friends
+                    {userProfile?.listFrend.length} bạn bè
                   </p>
                 </div>
               </div>
-              <div className="mt-4 flex space-x-3">
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                  Thêm Bạn Bè
-                </button>
-                <button className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">
-                  Nhắn Tin
-                </button>
-              </div>
+              {showAdd && (
+                <div className="mt-4 flex space-x-3">
+                  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    Thêm Bạn Bè
+                  </button>
+                  <button className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">
+                    Nhắn Tin
+                  </button>
+                </div>
+              )}
             </div>
             {showUpdate && (
               <button
@@ -92,7 +99,6 @@ const Profile = () => {
             )}
           </div>
         </div>
-
         {/* Main Content */}
         <section className="relative top-8 flex flex-col lg:flex-row gap-6 px-6 lg:px-8">
           {/* Sidebar: Introduction */}
@@ -101,18 +107,15 @@ const Profile = () => {
             <ul className="space-y-4 text-sm lg:text-base">
               <li className="flex items-center space-x-3">
                 <i className="fa-solid fa-briefcase text-blue-400"></i>
-                <span>Làm việc tại Hà Nội Fan</span>
+                <span>{userProfile?.biography[0].school}</span>
               </li>
               <li className="flex items-center space-x-3">
-                <i className="fa-solid fa-building-columns text-blue-400"></i>
-                <span>Từng học tại Harvard University</span>
+                <i className="fa-solid fa-briefcase text-blue-400"></i>
+                <span>{userProfile?.biography[0].workplace}</span>
               </li>
             </ul>
           </div>
-
-          {/* Posts Section */}
           <div className="lg:w-2/3">
-            {/* New Post Form */}
             {showUpPost && (
               <div className="mb-6 bg-gray-800 rounded-lg p-4">
                 <div className="flex gap-3">

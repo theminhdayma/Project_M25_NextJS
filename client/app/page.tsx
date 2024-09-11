@@ -9,9 +9,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { friendRequest, getAllUser } from "@/service/user.service";
+import { formatDate } from "@/utils/fomatDate";
 
 // Function to shuffle an array
-const shuffleArray = (array: User[]) => {
+const shuffleArray = (array: any[]) => {
   let currentIndex = array.length,
     randomIndex;
   while (currentIndex !== 0) {
@@ -45,7 +46,9 @@ export default function Home() {
   useEffect(() => {
     if (listUser.length > 0 && loggedInUser) {
       const nonLoggedInUsers = listUser.filter(
-        (user) => user.id !== loggedInUser?.id
+        (user) =>
+          user.id !== loggedInUser.id && 
+          !loggedInUser.listFrend.includes(user.id) 
       );
       const shuffledUsers = shuffleArray(nonLoggedInUsers);
       setFriendSuggestions(shuffledUsers.slice(0, 5));
@@ -65,6 +68,9 @@ export default function Home() {
       dispatch(friendRequest({ friendId, userId: loggedInUser.id }));
     }
   };
+
+  // const shuffledPosts = shufflePosts(listPost);
+  const shuffledPosts = shuffleArray([...listPost]);
 
   return (
     <div className="relative bg-gray-900 text-gray-200 font-sans">
@@ -181,33 +187,50 @@ export default function Home() {
             </div>
           </div>
           <div>
-            {listPost.map((post: Post, index: number) => (
+            {shuffledPosts.map((post: Post, index: number) => (
               <div className="bg-gray-700 p-4 rounded-lg mb-5" key={index}>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <Link href={"/profile"}>
-                      <img
-                        src={
-                          loggedInUser?.avatar ||
-                          "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
-                        }
-                        alt={loggedInUser?.name}
-                        className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
-                      />
-                    </Link>
-                    <h4>{post.name}</h4>
+                <div className=" flex items-center justify-between mb-3">
+                  <div className="w-full flex justify-between">
+                    <div className="flex items-center gap-3">
+                      <Link href={`/profile/${post.idUser}`}>
+                        <img
+                          src={
+                            post.avatarUser ||
+                            "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
+                          }
+                          alt={post.name}
+                          className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
+                        />
+                      </Link>
+                      <div>
+                        <h4>{post.name}</h4>
+                        <div className="flex justify-center items-center gap-4">
+                          <span className="text-sm text-gray-400">
+                            {formatDate(post.fullDate)}
+                          </span>
+                          <p className="text-gray-400">
+                            {post.privacy === 0
+                              ? "Công khai"
+                              : post.privacy === 1
+                              ? "Bạn bè"
+                              : "Chỉ mình tôi"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Nút để báo cáo */}
+                    <i className="fa-solid fa-ellipsis cursor-pointer" />
                   </div>
-                  <span className="text-sm text-gray-400">23 giờ trước</span>
                 </div>
                 <p className="mb-3">{post.detail}</p>
                 {post.images.length > 0 && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {post.images.map((image, index) => (
+                    {post.images.map((image, idx) => (
                       <img
-                        key={index}
+                        key={idx}
                         src={image}
-                        alt={`Post Image ${index + 1}`}
-                        className="w-full h-auto rounded-lg mb-3"
+                        alt={`Post Image ${idx + 1}`}
+                        className="w-full h-[300px] rounded-lg mb-3 object-cover"
                       />
                     ))}
                   </div>
@@ -244,7 +267,7 @@ export default function Home() {
                         "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
                       }
                       alt={user.name}
-                      className="w-10 h-10 rounded-full mr-3"
+                      className="w-10 h-10 rounded-full mr-3 object-cover"
                     />
                     <p>{user.name}</p>
                   </Link>
@@ -256,6 +279,9 @@ export default function Home() {
                   </button>
                 </li>
               ))}
+              {friendSuggestions.length === 0 && (
+                <p className="text-gray-400">Không có gợi ý kết bạn.</p>
+              )}
             </ul>
           </div>
           <div>
@@ -266,7 +292,7 @@ export default function Home() {
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
                     alt="User 2"
-                    className="w-10 h-10 rounded-full mr-3"
+                    className="w-10 h-10 rounded-full mr-3 object-cover"
                   />
                   <span className="absolute -bottom-1 left-7 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800" />
                   <p>Đinh Hà</p>
@@ -277,7 +303,7 @@ export default function Home() {
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
                     alt="User 3"
-                    className="w-10 h-10 rounded-full mr-3"
+                    className="w-10 h-10 rounded-full mr-3 object-cover"
                   />
                   <span className="absolute -bottom-1 left-7 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800" />
                   <p>Mai Hương</p>

@@ -1,25 +1,36 @@
 {
   "users": [
     {
-      "id": 1725566178835,
+      "id": 1725855291839,
       "name": "Thế Minh",
-      "password": "U2FsdGVkX1/TTNBQ8aDL3mcsoqmzcgkCayux10kXm24=",
+      "password": "U2FsdGVkX18vqD7G8xwVGebDyJ3vOnUT5e4SEQ9RuJk=",
       "email": "theminh2005z@gmail.com",
-      "avatar": "",
-      "banner": "",
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
+      "banner": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915571656_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=49a00d76-63d9-4efe-a69f-b3fc4a7c17ab",
       "biography": [
         {
-          "workplace": "",
-          "school": ""
+          "workplace": "Rekkei Academy",
+          "school": "Học Viện công nghệ Bưu Chính Viễn Thông"
         }
       ],
-      "gender": "",
+      "gender": "nam",
       "postsById": [],
       "followersById": [],
       "status": true,
       "private": false,
-      "requestFollowById": [],
-      "listFrend": [],
+      "requestFollowById": [
+        1725856603880,
+        1725566178835
+      ],
+      "listFrend": [
+        1725853849787,
+        1725853827179,
+        1725566771315,
+        1773626771315,
+        1725586455216,
+        1725588156315,
+        1725853790178
+      ],
       "role": 0
     },
     {
@@ -57,7 +68,7 @@
           "school": ""
         }
       ],
-      "gender": "",
+      "gender": "nữ",
       "postsById": [],
       "followersById": [],
       "status": true,
@@ -104,7 +115,7 @@
       "gender": "chưa có",
       "postsById": [],
       "followersById": [],
-      "status": true,
+      "status": false,
       "private": false,
       "requestFollowById": [],
       "listFrend": [],
@@ -148,7 +159,7 @@
       "gender": "chưa có",
       "postsById": [],
       "followersById": [],
-      "status": true,
+      "status": false,
       "private": false,
       "requestFollowById": [],
       "listFrend": [],
@@ -175,106 +186,103 @@
       "requestFollowById": [],
       "listFrend": [],
       "role": 1
-    },
-    {
-      "id": 1725855291839,
-      "name": "tiến ngu vl",
-      "password": "U2FsdGVkX18vqD7G8xwVGebDyJ3vOnUT5e4SEQ9RuJk=",
-      "email": "tien@gmail.com",
-      "avatar": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
-      "banner": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915571656_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=49a00d76-63d9-4efe-a69f-b3fc4a7c17ab",
-      "biography": [
-        {
-          "workplace": "Ngu",
-          "school": "Ngu"
-        }
-      ],
-      "gender": "nam",
-      "postsById": [],
-      "followersById": [],
-      "status": true,
-      "private": false,
-      "requestFollowById": [
-        1725856603880,
-        1725566178835
-      ],
-      "listFrend": [
-        1725853849787,
-        1725853827179
-      ],
-      "role": 1
     }
   ],
   "posts": [
     {
-      "id": 1,
-      "idUser": 1,
-      "avatarUser": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-      "name": "ngoc123",
-      "detail": "xin chao",
-      "fullDate": "2024-07-14",
-      "images": [
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-      ],
-      "commentsById": [],
-      "favouristUsersById": [],
-      "idGroup": null,
-      "status": true
-    },
-    {
-      "id": 2,
-      "idUser": 1,
-      "avatarUser": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-      "name": "ngoc123",
-      "detail": "xin chao",
-      "fullDate": "2024-07-14",
-      "images": [
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-      ],
-      "commentsById": [],
-      "favouristUsersById": [],
-      "idGroup": null,
-      "status": true
-    },
-    {
-      "id": 3,
-      "idUser": 1,
-      "avatarUser": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-      "name": "ngoc123",
-      "detail": "xin chao",
-      "fullDate": "2024-07-14",
-      "images": [
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-      ],
-      "commentsById": [],
-      "favouristUsersById": [],
-      "idGroup": null,
-      "status": true
-    },
-    {
       "idUser": 1725855291839,
-      "avatarUser": "",
-      "name": "tiến",
-      "detail": "CCCD",
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
+      "name": "Thế Minh",
+      "detail": "Đẹp trai",
       "images": [
-        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2FCCCD.jpg?alt=media&token=301932ce-fcd3-4f1f-b9ba-28cd2d3046f6"
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2F3157a67c-40d4-496a-88d7-e03a391eccdb.jpg?alt=media&token=736bd9e7-760e-49bf-974e-16c58aac0732",
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2F31642e1e-c1f4-4ed0-b3d8-6d9d50e2c0b2.jpg?alt=media&token=b88b0690-0937-43fa-b429-29d4251a6117"
       ],
-      "fullDate": "2024-09-09",
+      "fullDate": "2024-09-10T04:52:30.521Z",
       "commentsById": [],
       "favouristUsersById": [],
       "idGroup": null,
       "status": true,
+      "privacy": 0,
+      "id": 1
+    },
+    {
+      "idUser": 1725855291839,
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
+      "name": "Thế Minh",
+      "detail": "Áo đẹp",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2F24d21186-b562-40ea-9454-4f1cd2932d9e.jpg?alt=media&token=43128381-85cd-457e-a34c-b59733c4f1f4"
+      ],
+      "fullDate": "2024-09-10T04:52:44.189Z",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "privacy": 0,
+      "id": 2
+    },
+    {
+      "idUser": 1725855291839,
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
+      "name": "Thế Minh",
+      "detail": "Đẹp đôi",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2F1e08d332-21f9-40c5-be94-2936449039eb.jpg?alt=media&token=9b0dd470-f008-47a8-a525-56736aa334d3"
+      ],
+      "fullDate": "2024-09-10T05:03:38.325Z",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "privacy": 0,
+      "id": 3
+    },
+    {
+      "idUser": 1725855291839,
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
+      "name": "Thế Minh",
+      "detail": "èdgbersd",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2Fcgfhjbklm.jpg?alt=media&token=26b19ce2-fadb-4680-a63d-ea7b43a76665"
+      ],
+      "fullDate": "2024-09-10T05:14:15.137Z",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "privacy": 0,
       "id": 4
+    },
+    {
+      "idUser": 1725855291839,
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
+      "name": "Thế Minh",
+      "detail": "ửtryttgrfedwa",
+      "images": [],
+      "fullDate": "2024-09-10T05:14:22.536Z",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "privacy": 0,
+      "id": 5
+    },
+    {
+      "idUser": 1725566771315,
+      "avatarUser": "",
+      "name": "Minh Sâm",
+      "detail": "fghjkl",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2Fcgfhjbklm.jpg?alt=media&token=cf90dc06-da12-48d9-8ce0-b32430933899"
+      ],
+      "fullDate": "2024-09-11T00:30:08.461Z",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "privacy": 0,
+      "id": 6
     }
   ],
   "commentsParent": [

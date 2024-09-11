@@ -48,31 +48,31 @@ export default function Header() {
           <nav>
             <ul className="flex gap-24 text-white">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href={"/"}
                   className="h-full flex items-center justify-center gap-2 text-[26px] text-lg hover:text-blue-500"
                 >
                   <i className="fas fa-home" />
                   <span className="text-sm mt-1">Trang chủ</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href={`/listFrend/${loggedInUser?.id}`}
                   className="h-full flex items-center justify-center gap-2 text-[26px] text-lg hover:text-blue-500"
                 >
                   <i className="fas fa-user-friends" />
                   <span className="text-sm mt-1">Bạn bè</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href={`/listGroup/${loggedInUser?.id}`}
                   className="h-full flex items-center justify-center gap-2 text-[26px] text-lg hover:text-blue-500"
                 >
                   <i className="fas fa-users" />
                   <span className="text-sm mt-1">Nhóm</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <button

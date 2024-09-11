@@ -54,6 +54,10 @@ export default function Login() {
     // Kiểm tra độ dài mật khẩu
     if (inputValue.password.length < 8) {
       setCheckPassword(true);
+      Swal.fire({
+        icon: "error",
+        title: "Tài khoản đã bị khóa",
+      });
       return;
     } else {
       setCheckPassword(false);
@@ -85,6 +89,7 @@ export default function Login() {
     // Kiểm tra xem tài khoản có bị khóa không
     if (user.status !== true) {
       setCheckAccount(true);
+
       return;
     } else {
       setCheckAccount(false);
@@ -94,7 +99,7 @@ export default function Login() {
     dispatch(login(user.id));
 
     if (user.role === 0) {
-      router.push("/admin");
+      router.push("/user");
     } else {
       router.push("/");
     }

@@ -18,6 +18,7 @@ export default function FromAddPost({ close }: Props) {
   const [detail, setDetail] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+  const [privacy, setPrivacy] = useState<number>(0); // Default to Public
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -83,11 +84,12 @@ export default function FromAddPost({ close }: Props) {
         name: loggedInUser.name,
         detail: detail,
         images: uploadedImageUrls,
-        fullDate: new Date().toISOString().split("T")[0],
+        fullDate: new Date().toISOString(),
         commentsById: [],
         favouristUsersById: [],
         idGroup: null,
         status: true,
+        privacy: privacy,
       };
 
       await dispatch(createPost(newPost));
@@ -108,10 +110,14 @@ export default function FromAddPost({ close }: Props) {
           />
           <div>
             <p className="font-bold">{loggedInUser?.name}</p>
-            <select className="bg-gray-800 text-white p-2 rounded">
-              <option value="">Công khai</option>
-              <option value="profile">Bạn bè</option>
-              <option value="logout">Chỉ mình tôi</option>
+            <select
+              className="bg-gray-800 text-white p-2 rounded"
+              value={privacy}
+              onChange={(e) => setPrivacy(Number(e.target.value))}
+            >
+              <option value={0}>Công khai</option>
+              <option value={1}>Bạn bè</option>
+              <option value={2}>Chỉ mình tôi</option>
             </select>
           </div>
         </div>

@@ -58,25 +58,23 @@ export const logout = createAsyncThunk(
 
 export const friendRequest = createAsyncThunk(
   "user/request",
-  async ({ friendId, userId }: { friendId: number; userId: number }) => {
-    const response = await axios.patch(
-      `http://localhost:8080/users/${userId}`,
-      {
-        // requestFollowById: requestFollowById.push(friendId)
-      }
-    );
-    return response.data;
+  async (data: { friendId: number; userId: number }) => {
+    const { friendId, userId } = data;
+    const res = await axios.patch(`http://localhost:8080/users/${userId}`, {
+      requestFollowById: friendId,
+    });
+    return res.data;
   }
 );
 
 export const acceptFrend = createAsyncThunk(
   "user/accept",
-  async ({ friendId, userId }: { friendId: number; userId: number }) => {
-    const response = await axios.post(
-      `http://localhost:8080/users/${userId}/accept-friend`,
-      { friendId }
-    );
-    return response.data;
+  async (data: { friendId: number; userId: number }) => {
+    const { friendId, userId } = data;
+    const res = await axios.post(`http://localhost:8080/users/${userId}/accept-friend`, {
+      friendId,
+    });
+    return res.data;
   }
 );
 
@@ -87,6 +85,26 @@ export const updateProfile = createAsyncThunk(
       `http://localhost:8080/users/${user.id}`,
       user
     );
+    return response.data;
+  }
+);
+
+export const block: any = createAsyncThunk(
+  "user/blockUser",
+  async (id: number) => {
+    const response = await axios.patch(`http://localhost:8080/users/${id}`, {
+      status: false,
+    });
+    return response.data;
+  }
+);
+
+export const unblock: any = createAsyncThunk(
+  "user/unblockUser",
+  async (id: number) => {
+    const response = await axios.patch(`http://localhost:8080/users/${id}`, {
+      status: true,
+    });
     return response.data;
   }
 );
