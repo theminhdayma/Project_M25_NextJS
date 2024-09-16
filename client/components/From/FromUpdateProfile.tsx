@@ -40,7 +40,7 @@ export default function FromUpdateProfile({ close }: Props) {
     }
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any>) => {
     const { name, value, files } = e.target;
     if (files && files[0]) {
       const file = files[0];
@@ -116,14 +116,18 @@ export default function FromUpdateProfile({ close }: Props) {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Giới tính</label>
-              <input
-                type="text"
+            <label className="block text-gray-700">Giới tính</label>
+              <select
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none"
-              />
+              >
+                <option value="">Chọn giới tính</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="Khác">Khác</option>
+              </select>
             </div>
             <div className="mb-4">
               <label className="block text-gray-700">Nơi làm việc</label>

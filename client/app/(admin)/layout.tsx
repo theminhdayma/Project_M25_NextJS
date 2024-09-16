@@ -1,8 +1,10 @@
 "use client";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import "../../style/admin.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { User } from "@/interface";
+import { deleteLocal, getLocal } from "@/store/reducers/Local";
 
 export default function Admin({
   children,
@@ -26,7 +28,20 @@ export default function Admin({
     });
   }, []);
 
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const route = useRouter();
+
+  useEffect(() => {
+    const user = getLocal("loggedInUser");
+    if (user) {
+      setLoggedInUser(user);
+    }
+  }, [loggedInUser]);
+
+  const logout = () => {
+    deleteLocal("loggedInUser");
+    route.push("/login");
+  };
 
   return (
     <div className="body">
@@ -51,7 +66,7 @@ export default function Admin({
         </ul>
         <ul className="side-menu">
           <li>
-            <button className="logout">
+            <button onClick={logout} className="logout text-2xl">
               <i className="bx bxs-log-out-circle" />
               <span className="text">Logout</span>
             </button>

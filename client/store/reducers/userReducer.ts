@@ -2,14 +2,13 @@ import { User } from "../../interface";
 import { createSlice } from "@reduxjs/toolkit";
 import { saveLocal } from "./Local";
 import {
-  acceptFrend,
   block,
-  friendRequest,
+  followUser,
   getAllUser,
   login,
   register,
   unblock,
-  updateProfile, // Import action updateProfile
+  updateProfile, 
 } from "@/service/user.service";
 
 const listAccount: User[] = [];
@@ -51,29 +50,23 @@ const userReducer = createSlice({
         state.loggedInUser = action.payload;
         saveLocal("loggedInUser", action.payload);
       })
-      .addCase(friendRequest.fulfilled, (state, action) => {
-        const { friendId, userId } = action.meta.arg;
-        const currentUser = state.user.find((u) => u.id === userId);
-        if (currentUser && !currentUser.requestFollowById.includes(friendId)) {
-          // Thêm friendId vào danh sách yêu cầu kết bạn nếu chưa có
-          currentUser.requestFollowById = [
-            ...currentUser.requestFollowById,
-            friendId,
-          ];
+      .addCase(followUser.fulfilled, (state, action) => {
+        const { updatedCurrentUser, updatedTargetUser } = action.payload;
+
+        // Update currentUser and targetUser in state
+        const currentUserIndex = state.user.findIndex(
+          (user: User) => user.id === updatedCurrentUser.id
+        );
+        const targetUserIndex = state.user.findIndex(
+          (user: User) => user.id === updatedTargetUser.id
+        );
+
+        if (currentUserIndex !== -1) {
+          state.user[currentUserIndex] = updatedCurrentUser;
         }
-      })
-      .addCase(acceptFrend.fulfilled, (state, action) => {
-        const { friendId, userId } = action.meta.arg;
-        const currentUser = state.user.find((u) => u.id === userId);
-        if (currentUser) {
-          // Thêm friendId vào danh sách bạn bè
-          if (!currentUser.listFrend.includes(friendId)) {
-            currentUser.listFrend = [...currentUser.listFrend, friendId];
-          }
-          // Xóa friendId khỏi danh sách yêu cầu kết bạn
-          currentUser.requestFollowById = currentUser.requestFollowById.filter(
-            (id) => id !== friendId
-          );
+
+        if (targetUserIndex !== -1) {
+          state.user[targetUserIndex] = updatedTargetUser;
         }
       })
       .addCase(block.fulfilled, (state: any, action: any) => {
@@ -92,23 +85,6 @@ const userReducer = createSlice({
           state.user[index] = action.payload;
         }
       })
-    // .addCase(unFriend.fulfilled, (state: any, action: any) => {
-    //   const { userId, friendId } = action.payload;
-    //   const userIndex = state.user.findIndex(
-    //     (user: User) => user.id === userId
-    //   );
-    //   const friendIndex = state.user.findIndex(
-    //     (user: User) => user.id === friendId
-    //   );
-    //   if (userIndex !== -1 && friendIndex !== -1) {
-    //     state.user[userIndex].listFrend = state.user[userIndex].listFrend.filter(
-    //       (id: number) => id !== friendId
-    //     );
-    //     state.user[friendIndex].listFrend = state.user[friendIndex].listFrend.filter(
-    //       (id: number) => id !== userId
-    //     );
-    //   }
-    // });
   },
 });
 

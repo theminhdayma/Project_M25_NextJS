@@ -56,25 +56,57 @@ export const logout = createAsyncThunk(
   }
 );
 
-export const friendRequest = createAsyncThunk(
-  "user/request",
-  async (data: { friendId: number; userId: number }) => {
-    const { friendId, userId } = data;
-    const res = await axios.patch(`http://localhost:8080/users/${userId}`, {
-      requestFollowById: friendId,
-    });
-    return res.data;
+export const followUser: any = createAsyncThunk(
+  "user/followUser",
+  async (data: { userId: number; targetUserId: number }) => {
+    const { userId, targetUserId } = data;
+
+    // Fetch current user and target user details
+    const currentUserResponse = await axios.get(
+      `http://localhost:8080/users/${userId}`
+    );
+    const targetUserResponse = await axios.get(
+      `http://localhost:8080/users/${targetUserId}`
+    );
+
+    const currentUser = currentUserResponse.data;
+    const targetUser = targetUserResponse.data;
+
+    // Update targetUser (add currentUser to followersById)
+    const updatedTargetUser = {
+      ...targetUser,
+      followersById: [...targetUser.followersById, userId],
+    };
+    await axios.patch(
+      `http://localhost:8080/users/${targetUserId}`,
+      updatedTargetUser
+    );
+
+    // Update currentUser (add targetUser to requestFollowById)
+    const updatedCurrentUser = {
+      ...currentUser,
+      requestFollowById: [...currentUser.requestFollowById, targetUserId],
+    };
+    await axios.patch(
+      `http://localhost:8080/users/${userId}`,
+      updatedCurrentUser
+    );
+
+    return {
+      updatedCurrentUser,
+      updatedTargetUser,
+    };
   }
 );
 
-export const acceptFrend = createAsyncThunk(
-  "user/accept",
-  async (data: { friendId: number; userId: number }) => {
-    const { friendId, userId } = data;
-    const res = await axios.post(`http://localhost:8080/users/${userId}/accept-friend`, {
-      friendId,
-    });
-    return res.data;
+export const unfollowUserAction = createAsyncThunk(
+  "user/unfollowUser",
+  async (data: { targetUserId: number; userId: number }) => {
+    // Gọi API "unfollow"
+    await axios.post("http://localhost:8080/unfollow", data);
+
+    // Trả về ID của người bị bỏ theo dõi để dùng trong reducer
+    return data.targetUserId;
   }
 );
 

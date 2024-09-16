@@ -33,7 +33,8 @@ export interface Post {
   favouristUsersById: number[];
   idGroup: number | null;
   status: boolean;
-  privacy: number
+  privacy: string;
+  like: number[]
 }
 
 export interface CommentParent {

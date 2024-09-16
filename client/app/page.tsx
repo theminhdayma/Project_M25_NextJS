@@ -3,13 +3,14 @@ import FromAddPost from "@/components/From/FromAddPost";
 import "../style/user.scss";
 import Header from "@/components/User/Header";
 import { Post, User } from "@/interface";
-import { createPost, getAllPost } from "@/service/post.service";
-import { getLocal } from "@/store/reducers/Local";
+import { getAllPost } from "@/service/post.service";
+import { getLocal, saveLocal } from "@/store/reducers/Local";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { friendRequest, getAllUser } from "@/service/user.service";
+import { followUser, getAllUser } from "@/service/user.service";
 import { formatDate } from "@/utils/fomatDate";
+import Swal from "sweetalert2";
 
 // Function to shuffle an array
 const shuffleArray = (array: any[]) => {
@@ -30,13 +31,16 @@ export default function Home() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const [showFromUpPost, setShowFromUpPost] = useState<boolean>(false);
   const [friendSuggestions, setFriendSuggestions] = useState<User[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const listPost: Post[] = useSelector((state: any) => state.post.post);
   const listUser: User[] = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
+    // Chỉ gọi API một lần khi component được mount
     dispatch(getAllPost());
     dispatch(getAllUser());
+
     const user = getLocal("loggedInUser");
     if (user) {
       setLoggedInUser(user);
@@ -44,16 +48,40 @@ export default function Home() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (listUser.length > 0 && loggedInUser) {
+    // Chỉ thực hiện khi listUser và listPost đã được lấy về
+    if (loggedInUser && listUser.length > 0 && listPost.length > 0) {
+      // Lọc người dùng không phải người dùng đã đăng nhập và chưa gửi yêu cầu kết bạn
       const nonLoggedInUsers = listUser.filter(
-        (user) =>
-          user.id !== loggedInUser.id && 
-          !loggedInUser.listFrend.includes(user.id) 
+        (usr) =>
+          usr.id !== loggedInUser.id &&
+          !loggedInUser.requestFollowById.includes(usr.id)
       );
       const shuffledUsers = shuffleArray(nonLoggedInUsers);
       setFriendSuggestions(shuffledUsers.slice(0, 5));
+
+      // Lọc bài viết dựa trên quyền riêng tư
+      const visiblePosts = listPost
+        .filter((post) => {
+          if (post.status === true) {
+            if (post.privacy == "0") {
+              return true; // Công khai
+            } else if (post.privacy == "1") {
+              return (
+                loggedInUser.id === post.idUser || // Chính người dùng đăng bài
+                loggedInUser.requestFollowById.includes(post.idUser) // Người theo dõi có thể thấy
+              );
+            }
+          }
+          return false; // Chỉ mình tôi
+        })
+        .sort(
+          (a: Post, b: Post) =>
+            new Date(b.fullDate).getTime() - new Date(a.fullDate).getTime()
+        );
+
+      setFilteredPosts(visiblePosts);
     }
-  }, [listUser, loggedInUser]);
+  }, [loggedInUser, listUser, listPost]);
 
   const handleShowFromUpPost = () => {
     setShowFromUpPost(true);
@@ -63,14 +91,45 @@ export default function Home() {
     setShowFromUpPost(false);
   };
 
-  const handleAddFriend = (friendId: number) => {
+  const handleAddFriend = async (targetUserId: number) => {
     if (loggedInUser) {
-      dispatch(friendRequest({ friendId, userId: loggedInUser.id }));
+      try {
+        // Gửi yêu cầu theo dõi
+        const data: any = { targetUserId, userId: loggedInUser.id };
+        await dispatch(followUser(data));
+
+        // Cập nhật dữ liệu người dùng sau khi theo dõi thành công
+        const updatedUser = {
+          ...loggedInUser,
+          requestFollowById: [...loggedInUser.requestFollowById, targetUserId],
+        };
+
+        // Cập nhật state với dữ liệu người dùng mới
+        setLoggedInUser(updatedUser);
+
+        // Lưu dữ liệu người dùng mới vào local storage
+        saveLocal("loggedInUser", updatedUser);
+
+        // Hiển thị thông báo thành công
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Đã theo dõi",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        console.error("Lỗi khi theo dõi người dùng:", error);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Có lỗi xảy ra",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     }
   };
-
-  // const shuffledPosts = shufflePosts(listPost);
-  const shuffledPosts = shuffleArray([...listPost]);
 
   return (
     <div className="relative bg-gray-900 text-gray-200 font-sans">
@@ -93,7 +152,6 @@ export default function Home() {
             />
             <p>{loggedInUser?.name}</p>
           </Link>
-          {/* Search bar */}
           <div className="relative flex items-center bg-gray-700 rounded-full px-4 py-2">
             <input
               type="text"
@@ -105,10 +163,10 @@ export default function Home() {
           <ul>
             <li className="mb-3">
               <Link
-                href="/list-frend"
+                href={`/listFrend/${loggedInUser?.id}`}
                 className="flex items-center gap-3 hover:bg-gray-700 px-3 py-2 rounded-lg"
               >
-                <i className="fas fa-user-friends" /> Bạn bè
+                <i className="fas fa-user-friends" /> Người theo dõi
               </Link>
             </li>
             <li className="mb-3">
@@ -124,48 +182,6 @@ export default function Home() {
         {/* Feed */}
         <section className="w-3/5 bg-gray-800 p-5 rounded-lg overflow-auto max-h-[780px]">
           {/* Stories */}
-          <div className="flex gap-4 mb-5">
-            <div className="w-24 h-36 bg-gray-700 rounded-lg overflow-hidden relative">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-                alt="Story 1"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                <p>Tạo tin</p>
-              </div>
-            </div>
-            <div className="w-24 h-36 bg-gray-700 rounded-lg overflow-hidden relative">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-                alt="Story 1"
-                className="w-full h-full object-cover"
-              />
-              <p className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                Trường Loan
-              </p>
-            </div>
-            <div className="w-24 h-36 bg-gray-700 rounded-lg overflow-hidden relative">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-                alt="Story 2"
-                className="w-full h-full object-cover"
-              />
-              <p className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                Phùng Lan
-              </p>
-            </div>
-            <div className="w-24 h-36 bg-gray-700 rounded-lg overflow-hidden relative">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
-                alt="Story 3"
-                className="w-full h-full object-cover"
-              />
-              <p className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                Cristiano Ronaldo
-              </p>
-            </div>
-          </div>
           <div className="mb-5">
             <div className="w-full flex gap-2">
               <Link href={`/profile/${loggedInUser?.id}`}>
@@ -187,9 +203,9 @@ export default function Home() {
             </div>
           </div>
           <div>
-            {shuffledPosts.map((post: Post, index: number) => (
+            {filteredPosts.map((post: Post, index: number) => (
               <div className="bg-gray-700 p-4 rounded-lg mb-5" key={index}>
-                <div className=" flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-3">
                   <div className="w-full flex justify-between">
                     <div className="flex items-center gap-3">
                       <Link href={`/profile/${post.idUser}`}>
@@ -209,16 +225,15 @@ export default function Home() {
                             {formatDate(post.fullDate)}
                           </span>
                           <p className="text-gray-400">
-                            {post.privacy === 0
+                            {post.privacy == "0"
                               ? "Công khai"
-                              : post.privacy === 1
-                              ? "Bạn bè"
+                              : post.privacy == "1"
+                              ? "Người theo dõi"
                               : "Chỉ mình tôi"}
                           </p>
                         </div>
                       </div>
                     </div>
-                    {/* Nút để báo cáo */}
                     <i className="fa-solid fa-ellipsis cursor-pointer" />
                   </div>
                 </div>
@@ -236,63 +251,60 @@ export default function Home() {
                   </div>
                 )}
                 <div className="flex justify-around">
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                    <i className="fas fa-thumbs-up" /> Thích
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                    <i className="fas fa-thumbs-up"></i> Thích
                   </button>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                    <i className="fas fa-comment" /> Bình luận
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                    <i className="fas fa-comment"></i> Bình luận
                   </button>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                    <i className="fas fa-share" /> Chia sẻ
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                    <i className="fas fa-share"></i> Chia sẻ
                   </button>
                 </div>
               </div>
             ))}
           </div>
         </section>
-        {/* Sidebar Right */}
-        <aside className="w-1/5 bg-gray-800 p-5 rounded-lg flex flex-col gap-[100px]">
-          <div>
-            <h3 className="text-xl mb-3">Gợi ý kết bạn</h3>
-            <ul>
-              {friendSuggestions.map((user: User, index: number) => (
-                <li className="flex items-center mb-3" key={index}>
-                  <Link
-                    href={`/profile/${user.id}`}
-                    className="w-[180px] flex items-center"
-                  >
-                    <img
-                      src={
-                        user.avatar ||
-                        "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
-                      }
-                      alt={user.name}
-                      className="w-10 h-10 rounded-full mr-3 object-cover"
-                    />
-                    <p>{user.name}</p>
-                  </Link>
-                  <button
-                    className="bg-blue-500 text-white px-1 py-2 rounded-lg hover:bg-blue-600"
-                    onClick={() => handleAddFriend(user.id)}
-                  >
-                    Kết bạn
-                  </button>
-                </li>
-              ))}
-              {friendSuggestions.length === 0 && (
-                <p className="text-gray-400">Không có gợi ý kết bạn.</p>
-              )}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-xl mb-3">Bạn bè trực tuyến</h3>
+        {/* Friend Suggestions */}
+        <aside className="w-1/5 bg-gray-800 p-5 rounded-lg">
+          <h3 className="font-bold text-xl mb-3">Gợi ý kết bạn</h3>
+          {friendSuggestions.map((friend: User) => (
+            <div
+              key={friend.id}
+              className="flex justify-between mb-5 items-center"
+            >
+              <Link
+                href={`/profile/${friend.id}`}
+                className="flex items-center gap-2"
+              >
+                <img
+                  src={
+                    friend.avatar ||
+                    "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-admin-rolls-glyph-black-icon-png-image_691507.jpg"
+                  }
+                  alt={friend.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <p>{friend.name}</p>
+              </Link>
+              <button
+                className="bg-blue-500 text-gray-200 px-4 py-2 rounded-lg"
+                onClick={() => handleAddFriend(friend.id)}
+              >
+                Theo dõi
+              </button>
+            </div>
+          ))}
+          {/* Online Friends */}
+          <div className="bg-gray-800 p-4 rounded-lg">
+            <h3 className="font-bold text-xl mb-3">Bạn bè trực tuyến</h3>
             <ul>
               <li className="flex items-center mb-3">
                 <div className="relative flex items-center">
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
                     alt="User 2"
-                    className="w-10 h-10 rounded-full mr-3 object-cover"
+                    className="w-10 h-10 rounded-full mr-3"
                   />
                   <span className="absolute -bottom-1 left-7 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800" />
                   <p>Đinh Hà</p>
@@ -303,7 +315,7 @@ export default function Home() {
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRj3VwTFHunTLePi9gZY1s53p_42XG2B0a0A&s"
                     alt="User 3"
-                    className="w-10 h-10 rounded-full mr-3 object-cover"
+                    className="w-10 h-10 rounded-full mr-3"
                   />
                   <span className="absolute -bottom-1 left-7 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800" />
                   <p>Mai Hương</p>
@@ -312,8 +324,8 @@ export default function Home() {
             </ul>
           </div>
         </aside>
-        {showFromUpPost && <FromAddPost close={handleClose} />}
       </div>
+      {showFromUpPost && <FromAddPost close={handleClose} />}
     </div>
   );
 }
