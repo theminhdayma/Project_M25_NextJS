@@ -140,3 +140,14 @@ export const unblock: any = createAsyncThunk(
     return response.data;
   }
 );
+
+// Thêm thunk mới để tìm kiếm người dùng theo tên
+export const searchUserByName: any = createAsyncThunk(
+  "user/searchUserByName",
+  async (name: string) => {
+    const response = await axios.get(
+      `http://localhost:8080/users?name_like=${name}&_sort=id&_order=desc`
+    );
+    return response.data;
+  }
+);

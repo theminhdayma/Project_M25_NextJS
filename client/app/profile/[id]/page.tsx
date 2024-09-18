@@ -4,7 +4,11 @@ import FromUpdatePost from "@/components/From/FromUpdatePost";
 import FromUpdateProfile from "@/components/From/FromUpdateProfile";
 import Header from "@/components/User/Header";
 import { Post, User } from "@/interface";
-import { deletePost, getAllPost } from "@/service/post.service";
+import {
+  deletePost,
+  getAllPost,
+  updatePostLikes,
+} from "@/service/post.service";
 import { followUser, getAllUser } from "@/service/user.service";
 import { getLocal, saveLocal } from "@/store/reducers/Local";
 import { formatDate } from "@/utils/fomatDate";
@@ -50,12 +54,21 @@ const Profile = () => {
 
   useEffect(() => {
     const profileUser = listUser.find((u) => u.id === +params.id);
-    console.log(profileUser);
 
     if (profileUser && loggedInUser) {
       setIsFollowing(loggedInUser?.requestFollowById.includes(profileUser.id));
     }
   }, [listUser]);
+
+  useEffect(() => {
+    if (loggedInUser && listPost.length > 0) {
+      const initialLikeStatus = listPost.reduce((acc, post) => {
+        acc[post.id] = post.like.includes(loggedInUser.id);
+        return acc;
+      }, {} as { [key: number]: boolean });
+      setColorLike(initialLikeStatus);
+    }
+  }, [loggedInUser, listPost]);
 
   const listPostUser = listPost
     .filter((post: Post) => {
@@ -78,6 +91,7 @@ const Profile = () => {
   const handleClose = () => setShowFromUpPost(false);
   const handleEditProfile = () => setShowEditModal(true);
   const closeEditModal = () => setShowEditModal(false);
+  const [colorLike, setColorLike] = useState<{ [key: number]: boolean }>({});
   const handleShowFromUpdatePost = (post: Post) => {
     setPost(post);
     setShowFromUpdatePost(true);
@@ -266,6 +280,40 @@ const Profile = () => {
           position: "top-end",
           icon: "error",
           title: "Có lỗi xảy ra",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    }
+  };
+
+  const handleLike = async (postId: number) => {
+    if (loggedInUser) {
+      try {
+        setColorLike((prevStatus) => ({
+          ...prevStatus,
+          [postId]: !prevStatus[postId], // Toggle like status
+        }));
+
+        const post = listPost.find((post) => post.id === postId);
+        if (!post) return;
+
+        const userId = loggedInUser.id;
+        let updatedLikes = [...post.like];
+
+        if (updatedLikes.includes(userId)) {
+          updatedLikes = updatedLikes.filter((id) => id !== userId);
+        } else {
+          updatedLikes.push(userId);
+        }
+
+        await dispatch(updatePostLikes({ postId, like: updatedLikes }));
+      } catch (error) {
+        console.error("Error liking the post:", error);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "An error occurred",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -465,14 +513,27 @@ const Profile = () => {
                         </div>
                       )}
                       <div className="flex justify-around mt-4">
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                          <i className="fas fa-thumbs-up" /> Thích
+                        <button
+                          onClick={() => handleLike(post.id)}
+                          style={{
+                            background: colorLike[post.id] ? "blue" : "",
+                          }}
+                          className={`flex items-center gap-2 px-4 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105 text-white`}
+                        >
+                          <i className="fas fa-thumbs-up text-lg"></i>
+                          <span className="text-sm font-medium">Thích</span>
+                          <p className="ml-2 text-sm font-medium">
+                            {post.like.length}
+                          </p>
                         </button>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                          <i className="fas fa-comment" /> Bình luận
+                        <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                          <i className="fas fa-comment text-lg"></i>
+                          <span className="text-sm font-medium">Bình luận</span>
                         </button>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
-                          <i className="fas fa-share" /> Chia sẻ
+
+                        <button className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                          <i className="fas fa-share text-lg"></i>
+                          <span className="text-sm font-medium">Chia sẻ</span>
                         </button>
                       </div>
                     </div>

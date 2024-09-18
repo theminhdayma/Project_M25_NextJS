@@ -112,10 +112,10 @@ export default function FromUpdatePost({ post, close }: Props) {
         images: [...inputValue.images, ...imageUrls],
       };
       await dispatch(updatePost(updatedPost)).unwrap();
-      Swal.fire("Success", "Post updated successfully!", "success");
+      Swal.fire("Success", "Chỉnh sửa bài viết thành công!", "success");
       close();
     } catch (error) {
-      Swal.fire("Error", "Failed to update post", "error");
+      Swal.fire("Error", "Chỉnh sửa bài viết thất bại", "error");
     }
   };
 

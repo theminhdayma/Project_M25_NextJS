@@ -52,7 +52,7 @@ const ListFrend = () => {
     <>
       <Header />
       <div className="bg-gray-900 min-h-screen text-white p-8">
-        <h1 className="text-2xl font-bold mb-6">Tất cả bạn bè</h1>
+        <h1 className="text-2xl font-bold mb-6">Tất cả người theo dõi</h1>
         {/* Search input */}
         <div className="mb-6">
           <input

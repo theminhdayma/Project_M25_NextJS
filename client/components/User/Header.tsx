@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Swal from "sweetalert2";
 import FromNotification from "../From/FromNotification";
+import { ro } from "date-fns/locale";
 
 export default function Header() {
   const [showNotification, setShowNotification] = useState<boolean>(false);
@@ -20,7 +22,7 @@ export default function Header() {
     } else {
       router.push("/login");
     }
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = e.target.value;
@@ -28,8 +30,21 @@ export default function Header() {
     if (selectedOption === "profile") {
       router.push(`/profile/${loggedInUser?.id}`);
     } else if (selectedOption === "logout") {
-      deleteLocal("loggedInUser");
-      router.push("/login");
+      Swal.fire({
+        title: "Bạn có chắc chắn muốn đăng xuất?",
+        text: "Bạn sẽ phải đăng nhập lại để tiếp tục sử dụng trang web.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Đăng xuất",
+        cancelButtonText: "Hủy",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteLocal("loggedInUser");
+          router.push("/login");
+        }
+      });
     }
   };
 

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateProfile } from "@/service/user.service";
 import { storage } from "@/config/firebase";
+import Swal from "sweetalert2";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 interface Props {
@@ -74,7 +75,23 @@ export default function FromUpdateProfile({ close }: Props) {
       };
 
       dispatch(updateProfile(updatedData)).then(() => {
-        close();
+        Swal.fire({
+          title: 'Cập nhật thành công!',
+          text: 'Thông tin cá nhân của bạn đã được cập nhật.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#3085d6',
+        }).then(() => {
+          close();
+        });
+      }).catch((error: any) => {
+        Swal.fire({
+          title: 'Lỗi!',
+          text: 'Đã xảy ra lỗi trong quá trình cập nhật thông tin.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#d33',
+        });
       });
     }
   };

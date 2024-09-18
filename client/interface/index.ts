@@ -58,6 +58,16 @@ export interface CommentChild {
   detail: string;
 }
 
+export interface Comment {
+  id: number;           // ID của comment
+  idUser: number;       // ID của người dùng đã bình luận
+  postId: number;       // ID của bài viết mà comment này thuộc về
+  text: string;         // Nội dung của bình luận
+  fullDate: string;     // Ngày tạo của bình luận (dạng chuỗi)
+  avatarUser: string;   // Hình đại diện của người dùng
+  nameUser: string;     // Tên người dùng
+}
+
 export interface Group {
   id: number;
   groupName: string;

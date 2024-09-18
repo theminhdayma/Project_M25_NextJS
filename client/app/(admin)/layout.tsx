@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../style/admin.css";
-import Link from "next/link";
+import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { User } from "@/interface";
 import { deleteLocal, getLocal } from "@/store/reducers/Local";
@@ -11,37 +11,56 @@ export default function Admin({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useEffect(() => {
-    const allSideMenu = document.querySelectorAll<HTMLAnchorElement>(
-      "#sidebar .side-menu.top li a"
-    );
-
-    allSideMenu.forEach((item) => {
-      const li = item.parentElement as HTMLLIElement;
-
-      item.addEventListener("click", function () {
-        allSideMenu.forEach((i) => {
-          i.parentElement!.classList.remove("active");
-        });
-        li.classList.add("active");
-      });
-    });
-  }, []);
-
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true); // General loading state
+  const [loadingUser, setLoadingUser] = useState<boolean>(false); // For user section
+  const [loadingPost, setLoadingPost] = useState<boolean>(false); // For post section
   const route = useRouter();
 
   useEffect(() => {
     const user = getLocal("loggedInUser");
     if (user) {
       setLoggedInUser(user);
+      setLoading(false); 
+    } else {
+      setLoading(false);
+      route.push("/login");
     }
-  }, [loggedInUser]);
+  }, []);
+
+  const handleNavigation = (section: string) => {
+    if (section === "user") {
+      setLoadingUser(true);
+      setLoadingPost(false);
+      route.push("/user");
+    } else if (section === "post") {
+      route.push("/post");
+      setLoadingUser(false);
+      setLoadingPost(true);
+    }
+  };
 
   const logout = () => {
-    deleteLocal("loggedInUser");
-    route.push("/login");
+    Swal.fire({
+      title: "Bạn có chắc chắn muốn đăng xuất?",
+      text: "Bạn sẽ phải đăng nhập lại để truy cập các chức năng của hệ thống.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Có, đăng xuất!",
+      cancelButtonText: "Hủy",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteLocal("loggedInUser");
+        route.push("/login");
+      }
+    });
   };
+
+  if (loading) {
+    return <div>Loading...</div>; // Render loading state
+  }
 
   return (
     <div className="body">
@@ -51,17 +70,17 @@ export default function Admin({
           <span className="text">AdminHub</span>
         </a>
         <ul className="side-menu top">
-          <li className="active">
-            <Link href={"/user"}>
+          <li className={loadingUser ? "active" : ""}>
+            <a onClick={() => handleNavigation("user")}>
               <i className="bx bxs-dashboard" />
               <span className="text">Quản lý người dùng</span>
-            </Link>
+            </a>
           </li>
-          <li>
-            <Link href={"/post"}>
+          <li className={loadingPost ? "active" : ""}>
+            <a onClick={() => handleNavigation("post")}>
               <i className="bx bxs-shopping-bag-alt" />
               <span className="text">Quản lý bài viết</span>
-            </Link>
+            </a>
           </li>
         </ul>
         <ul className="side-menu">

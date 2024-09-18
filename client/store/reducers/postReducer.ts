@@ -6,6 +6,7 @@ import {
   updatePost,
   deletePost,
   unblockPost,
+  updatePostLikes,
 } from "@/service/post.service";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -49,6 +50,13 @@ const postReducer = createSlice({
         );
         if (index !== -1) {
           state.post[index] = action.payload;
+        }
+      })
+      .addCase(updatePostLikes.fulfilled, (state: any, action: any) => {
+        const updatedPost = action.payload;
+        const index = state.post.findIndex((post: Post) => post.id === updatedPost.id);
+        if (index !== -1) {
+          state.post[index] = updatedPost;
         }
       })
   },

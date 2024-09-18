@@ -8,6 +8,7 @@ import { createPost } from "@/service/post.service";
 import { useRouter } from "next/navigation";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "@/config/firebase";
+import Swal from "sweetalert2";
 
 interface Props {
   close: () => void;
@@ -94,8 +95,10 @@ export default function FromAddPost({ close }: Props) {
       };
 
       await dispatch(createPost(newPost));
+      Swal.fire("Success", "Thêm bai viết thành công!", "success");
       close();
     } catch (error) {
+      Swal.fire("Error", "Thêm bài viết thất bại", "error");
       console.error("Error creating post: ", error);
     }
   };

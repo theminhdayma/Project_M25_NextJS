@@ -6,7 +6,7 @@
       "password": "U2FsdGVkX1/VpoL5IVa4CAhZWLnQEKyvbLpqImrt+2M=",
       "email": "theminh2005z@gmail.com",
       "avatar": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915567918_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=d3fc8b03-87d4-42f9-8721-486fe3232bf4",
-      "banner": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1725915571656_z5797113754982_ed2988086f0022cbe0cdd0a5b04ec66a.jpg?alt=media&token=49a00d76-63d9-4efe-a69f-b3fc4a7c17ab",
+      "banner": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1726558153889_7b42ef2c-5724-4e1c-abe2-a4017fc4ec1a.jpg?alt=media&token=19c738a1-92c7-41e0-8326-5faee5fbdecd",
       "biography": [
         {
           "workplace": "Rekkei Academy",
@@ -36,7 +36,7 @@
     },
     {
       "id": 1725566771315,
-      "name": "Minh Sâm",
+      "name": "Minh Sâm ",
       "password": "U2FsdGVkX1+cZ3B2hH0pYDABmiNruDxP54AKq3ZYBiQ=",
       "email": "tranthiminhsam2006@icloud.com",
       "avatar": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1726345615049_1e08d332-21f9-40c5-be94-2936449039eb.jpg?alt=media&token=32558b29-737b-4b7c-adb4-151846820ac8",
@@ -237,8 +237,67 @@
         1725853827179,
         1725586455216,
         1725853849787,
-        1725588156315
+        1725588156315,
+        1726562502264
       ],
+      "listFrend": [],
+      "role": 1
+    },
+    {
+      "id": 1726546781526,
+      "name": "Dũng Phạm",
+      "password": "U2FsdGVkX191+DV9CYc/CVNwdH2IsxB9ezFrUij7+Fs=",
+      "email": "dungpham@gmail.com",
+      "avatar": "",
+      "banner": "",
+      "biography": [],
+      "gender": "chưa có",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": [],
+      "listFrend": [],
+      "role": 1
+    },
+    {
+      "id": 1726562502264,
+      "name": "Trần Nam",
+      "password": "U2FsdGVkX19PD71Xdm1Tc/A2GZSIG5z+Cl6soWSqa7Y=",
+      "email": "trannam@gmail.com",
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1726562575095_24d21186-b562-40ea-9454-4f1cd2932d9e.jpg?alt=media&token=7cffc9c1-983d-4c67-a39b-a7933aa14776",
+      "banner": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1726562578516_24d21186-b562-40ea-9454-4f1cd2932d9e.jpg?alt=media&token=e03b998d-0976-467f-8804-4d8a25dcc54f",
+      "biography": [
+        {
+          "workplace": "Rekkei Academy",
+          "school": "Học Viện công nghệ Bưu Chính Viễn Thông"
+        }
+      ],
+      "gender": "Nam",
+      "postsById": [],
+      "followersById": [
+        1726474940434
+      ],
+      "status": true,
+      "private": false,
+      "requestFollowById": [],
+      "listFrend": [],
+      "role": 1
+    },
+    {
+      "id": 1726563863132,
+      "name": "Thầy Hai",
+      "password": "U2FsdGVkX1/ynos8nB7rX/tFbLbYyHFZHhad9Cjf4TI=",
+      "email": "thayhai@gmail.com",
+      "avatar": "",
+      "banner": "",
+      "biography": [],
+      "gender": "chưa có",
+      "postsById": [],
+      "followersById": [],
+      "status": true,
+      "private": false,
+      "requestFollowById": [],
       "listFrend": [],
       "role": 1
     }
@@ -308,7 +367,7 @@
       "commentsById": [],
       "favouristUsersById": [],
       "idGroup": null,
-      "status": true,
+      "status": false,
       "privacy": "0",
       "like": [],
       "id": 7
@@ -362,7 +421,9 @@
       "idGroup": null,
       "status": true,
       "privacy": "0",
-      "like": [],
+      "like": [
+        1725566771315
+      ],
       "id": 10
     },
     {
@@ -379,7 +440,9 @@
       "idGroup": null,
       "status": true,
       "privacy": "0",
-      "like": [],
+      "like": [
+        1725855291839
+      ],
       "id": 11
     },
     {
@@ -415,7 +478,9 @@
       "idGroup": null,
       "status": true,
       "privacy": "1",
-      "like": [],
+      "like": [
+        1725855291839
+      ],
       "id": 13
     },
     {
@@ -432,8 +497,63 @@
       "idGroup": null,
       "status": true,
       "privacy": "0",
-      "like": [],
+      "like": [
+        1725855291839,
+        1725566771315
+      ],
       "id": 14
+    },
+    {
+      "idUser": 1725566771315,
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1726345615049_1e08d332-21f9-40c5-be94-2936449039eb.jpg?alt=media&token=32558b29-737b-4b7c-adb4-151846820ac8",
+      "name": "Minh Sâm ",
+      "detail": "Hí anh em !",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2F7b42ef2c-5724-4e1c-abe2-a4017fc4ec1a.jpg?alt=media&token=51b0c8a5-2712-437e-9863-835978f34985"
+      ],
+      "fullDate": "2024-09-17T04:34:20.873Z",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "privacy": "2",
+      "like": [],
+      "id": 15
+    },
+    {
+      "idUser": 1726562502264,
+      "avatarUser": "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/images%2F1726562575095_24d21186-b562-40ea-9454-4f1cd2932d9e.jpg?alt=media&token=7cffc9c1-983d-4c67-a39b-a7933aa14776",
+      "name": "Trần Nam",
+      "detail": "Áo rẻ đẹp cực",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2F24d21186-b562-40ea-9454-4f1cd2932d9e.jpg?alt=media&token=1fbd6851-c4f6-41f1-9f44-b94196fa769f"
+      ],
+      "fullDate": "2024-09-17T08:43:27.644Z",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "privacy": "0",
+      "like": [],
+      "id": 16
+    },
+    {
+      "idUser": 1726563863132,
+      "avatarUser": "",
+      "name": "Thầy Hai",
+      "detail": "Áo đẹp lắm",
+      "images": [
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2F24d21186-b562-40ea-9454-4f1cd2932d9e.jpg?alt=media&token=74a0daea-dbf1-4fe5-9e07-a48786b364ea",
+        "https://firebasestorage.googleapis.com/v0/b/projectm25nextjs.appspot.com/o/posts%2F12f9e75d-6463-4e70-ae18-b2175df207a8.jpg?alt=media&token=c9bf4b55-4edc-4891-853e-080f1d53cf00"
+      ],
+      "fullDate": "2024-09-17T09:06:34.523Z",
+      "commentsById": [],
+      "favouristUsersById": [],
+      "idGroup": null,
+      "status": true,
+      "privacy": "2",
+      "like": [],
+      "id": 17
     }
   ],
   "commentsParent": [
@@ -469,5 +589,6 @@
       "private": false,
       "adminById": 1
     }
-  ]
+  ],
+  "comments": []
 }

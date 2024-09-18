@@ -7,6 +7,7 @@ import {
   getAllUser,
   login,
   register,
+  searchUserByName,
   unblock,
   updateProfile, 
 } from "@/service/user.service";
@@ -25,6 +26,9 @@ const userReducer = createSlice({
       .addCase(getAllUser.fulfilled, (state: any, action: any) => {
         state.user = action.payload;
       })
+      .addCase(searchUserByName.fulfilled, (state: any, action: any) => {
+        state.user = action.payload;
+      })
       .addCase(register.fulfilled, (state: any, action: any) => {
         state.user.push(action.payload);
       })
@@ -36,7 +40,6 @@ const userReducer = createSlice({
           state.user[index] = action.payload;
         }
         state.loggedInUser = action.payload;
-        console.log(action.payload);
 
         saveLocal("loggedInUser", action.payload);
       })

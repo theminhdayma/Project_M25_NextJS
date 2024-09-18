@@ -34,7 +34,7 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     // Kiểm tra các trường có rỗng hay không
     if (!inputValue.email || !inputValue.password) {
       setCheckHollow(true);
@@ -42,7 +42,7 @@ export default function Login() {
     } else {
       setCheckHollow(false);
     }
-
+  
     // Kiểm tra định dạng email
     if (!validateEmail(inputValue.email)) {
       setCheckEmail(true);
@@ -50,22 +50,22 @@ export default function Login() {
     } else {
       setCheckEmail(false);
     }
-
+  
     // Kiểm tra độ dài mật khẩu
     if (inputValue.password.length < 8) {
       setCheckPassword(true);
       Swal.fire({
         icon: "error",
-        title: "Tài khoản đã bị khóa",
+        title: "Mật khẩu phải ít nhất 8 ký tự",
       });
       return;
     } else {
       setCheckPassword(false);
     }
-
+  
     // Tìm tài khoản với email nhập vào
     const user = listAccount.find((user) => user.email === inputValue.email);
-
+  
     // Nếu không tìm thấy tài khoản với email đó
     if (!user) {
       setCheckUseEmail(true);
@@ -73,11 +73,11 @@ export default function Login() {
     } else {
       setCheckUseEmail(false);
     }
-
+  
     // Giải mã mật khẩu
     const bytes = CryptoJS.AES.decrypt(user.password, "secret_key");
     const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-
+  
     // Kiểm tra mật khẩu đã giải mã có khớp với mật khẩu người dùng nhập vào
     if (decryptedPassword !== inputValue.password) {
       setCheckComfimPassword(true);
@@ -85,25 +85,26 @@ export default function Login() {
     } else {
       setCheckComfimPassword(false);
     }
-
+  
     // Kiểm tra xem tài khoản có bị khóa không
     if (user.status !== true) {
-      setCheckAccount(true);
-
+      Swal.fire({
+        icon: "error",
+        title: "Tài khoản đã bị khóa",
+        text: "Vui lòng liên hệ với quản trị viên để biết thêm chi tiết.",
+      });
       return;
-    } else {
-      setCheckAccount(false);
     }
-
+  
     // Nếu các kiểm tra đều hợp lệ, tiến hành đăng nhập
     dispatch(login(user.id));
-
+  
     if (user.role === 0) {
       router.push("/user");
     } else {
       router.push("/");
     }
-
+  
     setInputValue({ email: "", password: "" });
     Swal.fire({
       title: "Đăng nhập thành công",
@@ -111,6 +112,7 @@ export default function Login() {
       confirmButtonText: "OK",
     });
   };
+  
 
   return (
     <div className="bg-gray-900 text-gray-200 font-sans">

@@ -62,3 +62,12 @@ export const unblockPost: any = createAsyncThunk(
     return response.data;
   }
 );
+
+// Cập nhật bài viết likes
+export const updatePostLikes = createAsyncThunk(
+  "post/updatePostLikes",
+  async ({ postId, like }: { postId: number; like: number[] }) => {
+    const response = await axios.patch(`http://localhost:8080/posts/${postId}`, { like });
+    return response.data; // Trả về bài viết đã được cập nhật
+  }
+);

@@ -1,6 +1,6 @@
 "use client";
 import { User } from "@/interface";
-import { acceptFrend, getAllUser } from "@/service/user.service";
+import { getAllUser } from "@/service/user.service";
 import { getLocal } from "@/store/reducers/Local";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -19,13 +19,6 @@ export default function FromNotification() {
     }
   }, [dispatch]);
 
-  console.log(loggedInUser?.requestFollowById);
-
-  const handleAcceptFriend = (friendId: number) => {
-    if (loggedInUser) {
-      dispatch(acceptFrend({ friendId, userId: loggedInUser.id }));
-    }
-  };
 
   return (
     <div className="absolute z-50 right-[90px] p-4 bg-gray-800 w-[550px] rounded-lg shadow-lg">
@@ -57,7 +50,6 @@ export default function FromNotification() {
             </div>
             <div className="flex gap-2">
               <button
-                onClick={() => handleAcceptFriend(item.senderId)}
                 className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
               >
                 Xác nhận

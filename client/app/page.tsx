@@ -2,8 +2,8 @@
 import FromAddPost from "@/components/From/FromAddPost";
 import "../style/user.scss";
 import Header from "@/components/User/Header";
-import { Post, User } from "@/interface";
-import { getAllPost } from "@/service/post.service";
+import { Post, User, Comment } from "@/interface";
+import { getAllPost, updatePostLikes } from "@/service/post.service";
 import { getLocal, saveLocal } from "@/store/reducers/Local";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,6 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { followUser, getAllUser } from "@/service/user.service";
 import { formatDate } from "@/utils/fomatDate";
 import Swal from "sweetalert2";
+import {
+  fetchCommentsByPostId,
+  addCommentToPost,
+} from "@/store/reducers/commentReducer";
 
 // Function to shuffle an array
 const shuffleArray = (array: any[]) => {
@@ -32,15 +36,22 @@ export default function Home() {
   const [showFromUpPost, setShowFromUpPost] = useState<boolean>(false);
   const [friendSuggestions, setFriendSuggestions] = useState<User[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+  const [colorLike, setColorLike] = useState<{ [key: number]: boolean }>({});
+  const [newComment, setNewComment] = useState<string>("");
+  const [postComments, setPostComments] = useState<{
+    [key: number]: Comment[];
+  }>({});
+
   const listPost: Post[] = useSelector((state: any) => state.post.post);
   const listUser: User[] = useSelector((state: any) => state.user.user);
+  const comments: Comment[] = useSelector(
+    (state: any) => state.comment.comment
+  );
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
-    // Chỉ gọi API một lần khi component được mount
     dispatch(getAllPost());
     dispatch(getAllUser());
-
     const user = getLocal("loggedInUser");
     if (user) {
       setLoggedInUser(user);
@@ -48,9 +59,7 @@ export default function Home() {
   }, [dispatch]);
 
   useEffect(() => {
-    // Chỉ thực hiện khi listUser và listPost đã được lấy về
     if (loggedInUser && listUser.length > 0 && listPost.length > 0) {
-      // Lọc người dùng không phải người dùng đã đăng nhập và chưa gửi yêu cầu kết bạn
       const nonLoggedInUsers = listUser.filter(
         (usr) =>
           usr.id !== loggedInUser.id &&
@@ -58,30 +67,51 @@ export default function Home() {
       );
       const shuffledUsers = shuffleArray(nonLoggedInUsers);
       setFriendSuggestions(shuffledUsers.slice(0, 5));
-
-      // Lọc bài viết dựa trên quyền riêng tư
+  
       const visiblePosts = listPost
         .filter((post) => {
           if (post.status === true) {
             if (post.privacy == "0") {
-              return true; // Công khai
+              return true;
             } else if (post.privacy == "1") {
               return (
-                loggedInUser.id === post.idUser || // Chính người dùng đăng bài
-                loggedInUser.requestFollowById.includes(post.idUser) // Người theo dõi có thể thấy
+                loggedInUser.id === post.idUser ||
+                loggedInUser.requestFollowById.includes(post.idUser)
               );
             }
           }
-          return false; // Chỉ mình tôi
+          return false;
         })
         .sort(
           (a: Post, b: Post) =>
             new Date(b.fullDate).getTime() - new Date(a.fullDate).getTime()
         );
-
+  
       setFilteredPosts(visiblePosts);
+  
+      // Initialize the colorLike state
+      const initialLikeStatus = visiblePosts.reduce((acc, post) => {
+        acc[post.id] = post.like.includes(loggedInUser.id);
+        return acc;
+      }, {} as { [key: number]: boolean });
+  
+      setColorLike(initialLikeStatus);
     }
   }, [loggedInUser, listUser, listPost]);
+  
+
+  useEffect(() => {
+    filteredPosts.forEach((post) => {
+      dispatch(fetchCommentsByPostId(post.id)).then((result: any) => {
+        if (result.meta.requestStatus === "fulfilled") {
+          setPostComments((prevComments) => ({
+            ...prevComments,
+            [post.id]: result.payload,
+          }));
+        }
+      });
+    });
+  }, [filteredPosts]);
 
   const handleShowFromUpPost = () => {
     setShowFromUpPost(true);
@@ -120,6 +150,75 @@ export default function Home() {
         });
       } catch (error) {
         console.error("Lỗi khi theo dõi người dùng:", error);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Có lỗi xảy ra",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    }
+  };
+
+  const handleLike = async (postId: number) => {
+    if (loggedInUser) {
+      try {
+        setColorLike((prevStatus) => ({
+          ...prevStatus,
+          [postId]: !prevStatus[postId], // Toggle like status
+        }));
+  
+        const post = listPost.find((post) => post.id === postId);
+        if (!post) return;
+  
+        const userId = loggedInUser.id;
+        let updatedLikes = [...post.like];
+  
+        if (updatedLikes.includes(userId)) {
+          updatedLikes = updatedLikes.filter((id) => id !== userId);
+        } else {
+          updatedLikes.push(userId);
+        }
+  
+        await dispatch(updatePostLikes({ postId, like: updatedLikes }));
+      } catch (error) {
+        console.error("Error liking the post:", error);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "An error occurred",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    }
+  };
+  
+
+  //Comment
+  const handleCommentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setNewComment(event.target.value);
+  };
+
+  const handleAddComment = async (postId: number) => {
+    if (loggedInUser && newComment.trim()) {
+      try {
+        const response = await dispatch(
+          addCommentToPost({ postId, text: newComment })
+        );
+        const addedComment = response.payload;
+
+        setPostComments((prevComments) => ({
+          ...prevComments,
+          [postId]: [...(prevComments[postId] || []), addedComment],
+        }));
+
+        setNewComment("");
+      } catch (error) {
+        console.error("Lỗi khi thêm bình luận:", error);
         Swal.fire({
           position: "top-end",
           icon: "error",
@@ -250,15 +349,28 @@ export default function Home() {
                     ))}
                   </div>
                 )}
-                <div className="flex justify-around">
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                    <i className="fas fa-thumbs-up"></i> Thích
+                <div className="flex justify-around gap-4 mt-4">
+                  <button
+                    onClick={() => handleLike(post.id)}
+                    style={{
+                      background: colorLike[post.id] ? "blue" : "",
+                    }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105 text-white`}
+                  >
+                    <i className="fas fa-thumbs-up text-lg"></i>
+                    <span className="text-sm font-medium">Thích</span>
+                    <p className="ml-2 text-sm font-medium">
+                      {post.like.length}
+                    </p>
                   </button>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                    <i className="fas fa-comment"></i> Bình luận
+                  <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                    <i className="fas fa-comment text-lg"></i>
+                    <span className="text-sm font-medium">Bình luận</span>
                   </button>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                    <i className="fas fa-share"></i> Chia sẻ
+
+                  <button className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                    <i className="fas fa-share text-lg"></i>
+                    <span className="text-sm font-medium">Chia sẻ</span>
                   </button>
                 </div>
               </div>
